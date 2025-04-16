@@ -113,11 +113,11 @@ export function HomeContent({ initialData }: HomeContentProps) {
 
   // 使用 useMemo 优化文章列表渲染
   const postElements = useMemo(() => (
-    <div className={`space-y-6 transition-opacity duration-300 ${isTransitioning ? 'opacity-50' : 'opacity-100'}`}>
+    <div className={`space-y-4 transition-opacity duration-300 ${isTransitioning ? 'opacity-50' : 'opacity-100'}`}>
       {loading ? (
         <>
           {Array.from({ length: 10 }).map((_, index) => (
-            <article key={index} className="border-b border-zinc-100 dark:border-zinc-800 pb-6 last:border-0 last:pb-0">
+            <article key={index} className="border-b border-zinc-100 dark:border-zinc-800 pb-4 last:border-0 last:pb-0">
               <div className="space-y-2">
                 <Skeleton className="h-5 w-2/3" />
                 <Skeleton className="h-3 w-1/4" />
@@ -131,12 +131,11 @@ export function HomeContent({ initialData }: HomeContentProps) {
         postsData.posts.map((post) => (
           <article
             key={post.id}
-            className="border-b border-zinc-100 dark:border-zinc-800 pb-6 last:border-0 last:pb-0"
+            className="border-b border-zinc-100 dark:border-zinc-800 pb-4 last:border-0 last:pb-0"
           >
             <Link href={`/posts/${post.id}`} className="group block">
-              <h2 className="text-base font-normal group-hover:text-zinc-700 dark:group-hover:text-zinc-300 transition-all duration-300 relative inline-block">
+              <h2 className="text-base font-normal text-zinc-800 dark:text-zinc-200 group-hover:text-zinc-600 dark:group-hover:text-zinc-300 transition-colors duration-300">
                 {post.title}
-                <span className="absolute -bottom-1 left-0 w-full h-[1px] bg-gradient-to-r from-zinc-200/0 via-zinc-400/50 to-zinc-200/0 dark:from-zinc-700/0 dark:via-zinc-500/50 dark:to-zinc-700/0 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
               </h2>
               <time className="text-xs text-zinc-400 dark:text-zinc-500 mt-1 block">
                 {formatDate(post.date)}

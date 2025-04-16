@@ -106,7 +106,7 @@ export function MarkdownContent({ content }: MarkdownContentProps) {
 
   return (
     <div 
-      className="prose prose-zinc dark:prose-invert prose-sm max-w-none dark:text-zinc-200"
+      className="prose prose-zinc dark:prose-invert prose-base max-w-none dark:text-zinc-200"
       dangerouslySetInnerHTML={{ __html: processContent(content) }}
     />
   )
