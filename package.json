@@ -48,7 +48,7 @@
     "date-fns": "4.1.0",
     "embla-carousel-react": "8.5.1",
     "feed": "^4.2.2",
-    "framer-motion": "^12.6.3",
+    "framer-motion": "^12.7.3",
     "fs": "latest",
     "gray-matter": "latest",
     "highlight.js": "^11.11.1",
