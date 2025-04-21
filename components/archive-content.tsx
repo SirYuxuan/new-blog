@@ -137,7 +137,7 @@ export function ArchiveContent({ initialData }: ArchiveContentProps) {
                     {post.title}
                   </span>
                   <time className="text-xs text-zinc-400 dark:text-zinc-500 flex-shrink-0">
-                    {formatDate(post.date)}
+                    {new Date(post.date).toLocaleDateString('zh-CN', { month: 'long', day: 'numeric' })}
                   </time>
                 </Link>
               ))}
@@ -167,4 +167,4 @@ export function ArchiveContent({ initialData }: ArchiveContentProps) {
       <Footer />
     </div>
   )
-} 
+}
