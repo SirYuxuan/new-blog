@@ -144,7 +144,7 @@ export function getAllTags() {
 
   posts.forEach((post) => {
     if (post.tags) {
-      post.tags.forEach((tag) => {
+      post.tags.forEach((tag: string | number) => {
         tagCounts[tag] = (tagCounts[tag] || 0) + 1
       })
     }

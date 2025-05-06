@@ -1,7 +1,7 @@
 import { HomeContent } from "@/components/home-content"
 import { getPaginatedPostsAction, getAllTagsAction } from "@/app/actions/posts"
 
-// 设置为完全静态生成
+
 export const dynamic = 'force-static'
 export const revalidate = false
 

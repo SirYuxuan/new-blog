@@ -3,24 +3,15 @@
 import { useState, useEffect, useCallback, useMemo } from "react"
 import type { PostsByYear } from "@/types/post"
 import Link from "next/link"
-import { ArrowLeft } from "lucide-react"
-import { ThemeToggle } from "@/components/theme-toggle"
-import { getPostsByYearAction, getAllTagsAction } from "@/app/actions/posts"
-import { formatDate, delay } from "@/app/lib/utils"
+import { getPostsByYearAction} from "@/app/actions/posts"
+import { delay } from "@/app/lib/utils"
 import { Skeleton } from "@/components/ui/skeleton"
-import { HeaderNav } from "@/components/header-nav"
 import { Footer } from "@/components/footer"
 import { Tag } from "@/components/tag"
 import { Header } from "@/components/header"
+import type { ArchiveContentProps } from "@/types/archive"
 
-interface ArchiveContentProps {
-  initialData: {
-    postsByYear: PostsByYear;
-    tags: Array<{ tag: string; count: number }>;
-  };
-}
 
-// 自定义 hook 用于处理标签逻辑
 function useTags(initialTags: Array<{ tag: string; count: number }>) {
   const [allTags, setAllTags] = useState(initialTags);
   const [selectedTag, setSelectedTag] = useState<string | null>(null);

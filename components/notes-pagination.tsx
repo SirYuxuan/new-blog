@@ -3,11 +3,11 @@
 import { useState, useEffect, useRef } from "react"
 import { getPaginatedNotesAction } from "@/app/actions/notes"
 import { NoteCard } from "./note-card"
+import type { NotesPaginationProps } from "@/types/notes"
 
-export function NotesPagination({ initialNotes, initialTotal }: { 
-  initialNotes: any[],
-  initialTotal: number,
-}) {
+export function NotesPagination({ 
+  initialNotes, 
+  initialTotal}: NotesPaginationProps) {
   const [notes, setNotes] = useState(initialNotes)
   const [page, setPage] = useState(1)
   const [loading, setLoading] = useState(false)

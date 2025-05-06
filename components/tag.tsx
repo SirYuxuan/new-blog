@@ -1,11 +1,5 @@
 import { cn } from "@/lib/utils"
-
-interface TagProps {
-  tag: string
-  onClick?: () => void
-  className?: string
-  interactive?: boolean
-}
+import type { TagProps, TagsProps } from '@/types/tag'
 
 export function Tag({ tag, onClick, className, interactive = false }: TagProps) {
   const baseClasses = cn(
@@ -44,13 +38,6 @@ export function Tag({ tag, onClick, className, interactive = false }: TagProps) 
   )
 }
 
-interface TagsProps {
-  tags: string[]
-  className?: string
-  onTagClick?: (tag: string) => void
-  interactive?: boolean
-}
-
 export function Tags({ tags, className, onTagClick, interactive = false }: TagsProps) {
   if (!tags || tags.length === 0) return null
 
@@ -66,4 +53,4 @@ export function Tags({ tags, className, onTagClick, interactive = false }: TagsP
       ))}
     </div>
   )
-} 
+}

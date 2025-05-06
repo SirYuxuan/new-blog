@@ -1,6 +1,3 @@
-import Link from "next/link"
-import { ArrowLeft } from "lucide-react"
-import { ThemeToggle } from "@/components/theme-toggle"
 import { getAllPostIds, getPostById } from "@/app/lib/posts"
 import { formatDate } from "@/app/lib/utils"
 import { notFound } from "next/navigation"

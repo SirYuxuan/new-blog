@@ -3,13 +3,7 @@
 import { Button } from "@/components/ui/button"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { cn } from "@/lib/utils"
-
-interface PaginationButtonsProps {
-  currentPage: number
-  totalPages: number
-  onPageChange: (page: number) => void
-  className?: string
-}
+import type { PaginationButtonsProps } from '@/types/pagination'
 
 export function PaginationButtons({
   currentPage,

@@ -1,12 +1,8 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
-import Link from "next/link"
-import { ArrowLeft, Github, Twitter, Mail, Copy, Rss, MessageCircle } from "lucide-react"
-import { ThemeToggle } from "@/components/theme-toggle"
-import { HeaderNav } from "@/components/header-nav"
+import { Github,  Mail,  Rss, MessageCircle } from "lucide-react"
 import { Footer } from "@/components/footer"
-import { Skeleton } from "@/components/ui/skeleton"
 import Image from "next/image"
 import { Header } from "@/components/header"
 

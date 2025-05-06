@@ -2,14 +2,7 @@ import Link from "next/link"
 import { ArrowLeft } from "lucide-react"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { HeaderNav } from "@/components/header-nav"
-
-interface HeaderProps {
-  showBackButton?: boolean
-  backButtonHref?: string
-  showNav?: boolean
-  isHome?: boolean
-  title?: string
-}
+import type { HeaderProps } from "@/types/header"
 
 export function Header({ showBackButton = false, backButtonHref = "/", showNav = true, isHome = false, title }: HeaderProps) {
   if (isHome) {
@@ -71,4 +64,4 @@ export function Header({ showBackButton = false, backButtonHref = "/", showNav =
       </div>
     </header>
   )
-} 
+}

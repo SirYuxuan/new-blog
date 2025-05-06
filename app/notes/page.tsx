@@ -1,6 +1,3 @@
-import Link from "next/link"
-import { ThemeToggle } from "@/components/theme-toggle"
-import { HeaderNav } from "@/components/header-nav"
 import { Layout } from "@/components/layout"
 import { NotesPagination } from "@/components/notes-pagination"
 import { getPaginatedNotesAction } from "@/app/actions/notes"
@@ -11,13 +8,21 @@ import { Header } from "@/components/header"
 export const dynamic = 'force-static'
 export const revalidate = false // 禁用重新验证，因为数据是静态的
 
-// 预生成首页数据
+// 预生成首页数据，并指定生成的页数
 export async function generateStaticParams() {
-  return [{}] // 只需要生成一个首页
+  const { totalPages } = await getPaginatedNotesAction(1, 15)
+  return Array.from({ length: totalPages }, (_, i) => ({
+    page: (i + 1).toString()
+  }))
 }
 
-export default async function NotesPage() {
-  const { notes, total } = await getPaginatedNotesAction(1, 15)
+export default async function NotesPage({
+  searchParams,
+}: {
+  searchParams?: { page?: string }
+}) {
+  const currentPage = Number(searchParams?.page) || 1
+  const { notes, total, totalPages } = await getPaginatedNotesAction(currentPage, 15)
 
   return (
     <Layout>
@@ -34,7 +39,7 @@ export default async function NotesPage() {
           </div>
           <div className="space-y-0.5">
             <h1 className="text-base font-medium text-zinc-900 dark:text-zinc-100 tracking-tight">Jimmy</h1>
-            <p className="text-xs text-zinc-500 dark:text-zinc-400 font-light">记录想法和感受</p>
+            <p className="text-xs text-zinc-500 dark:text-zinc-400 ">记录想法和感受</p>
           </div>
         </div>
 
@@ -42,6 +47,8 @@ export default async function NotesPage() {
           <NotesPagination 
             initialNotes={notes}
             initialTotal={total}
+            initialPage={currentPage}
+            totalPages={totalPages}
           />
         </main>
 

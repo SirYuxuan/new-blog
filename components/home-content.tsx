@@ -3,25 +3,17 @@
 import { useState, useEffect, useCallback, useMemo } from "react"
 import type { PostsData } from "@/types/post"
 import Link from "next/link"
-import { ThemeToggle } from "@/components/theme-toggle"
 import { getPaginatedPostsAction, getAllTagsAction } from "@/app/actions/posts"
-import { Button } from "@/components/ui/button"
 import { formatDate, delay } from "@/app/lib/utils"
 import { Skeleton } from "@/components/ui/skeleton"
-import { List } from "lucide-react"
 import { Footer } from "@/components/footer"
 import { PaginationButtons } from "@/components/pagination-buttons"
-import { HeaderNav } from "@/components/header-nav"
-import { Tags } from "@/components/tag"
 import { Tag } from "@/components/tag"
 import { Header } from "@/components/header"
+import type { HomeContentProps } from "@/types/home"
+import { articleStyles } from "@/styles/article"
 
-interface HomeContentProps {
-  initialData: {
-    posts: PostsData;
-    tags: Array<{ tag: string; count: number }>;
-  };
-}
+
 
 // 自定义 hook 用于处理标签逻辑
 function useTags(initialTags: Array<{ tag: string; count: number }>) {
@@ -117,7 +109,7 @@ export function HomeContent({ initialData }: HomeContentProps) {
       {loading ? (
         <>
           {Array.from({ length: 10 }).map((_, index) => (
-            <article key={index} className="border-b border-zinc-100 dark:border-zinc-800 pb-4 last:border-0 last:pb-0">
+            <article key={index} className={articleStyles.baseClass}>
               <div className="space-y-2">
                 <Skeleton className="h-5 w-2/3" />
                 <Skeleton className="h-3 w-1/4" />
@@ -131,7 +123,7 @@ export function HomeContent({ initialData }: HomeContentProps) {
         postsData.posts.map((post) => (
           <article
             key={post.id}
-            className="border-b border-zinc-100 dark:border-zinc-800 pb-4 last:border-0 last:pb-0"
+            className={articleStyles.baseClass}
           >
             <Link href={`/posts/${post.id}`} className="group block">
               <h2 className="text-base font-normal text-zinc-800 dark:text-zinc-200 group-hover:text-zinc-600 dark:group-hover:text-zinc-300 transition-colors duration-300">
@@ -178,4 +170,4 @@ export function HomeContent({ initialData }: HomeContentProps) {
       <Footer />
     </div>
   )
-} 
+}

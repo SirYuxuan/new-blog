@@ -1,16 +1,11 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import katex from 'katex'
 import 'katex/dist/katex.min.css'
-
-
-interface MarkdownContentProps {
-  content: string
-}
+import type { MarkdownContentProps } from '@/types/markdown'
 
 export function MarkdownContent({ content }: MarkdownContentProps) {
-  const [copiedCodeBlocks, setCopiedCodeBlocks] = useState<Record<string, boolean>>({})
 
   const renderMath = (tex: string, displayMode: boolean): string => {
     try {
@@ -42,7 +37,7 @@ export function MarkdownContent({ content }: MarkdownContentProps) {
     // 为所有代码块添加复制按钮
     const codeBlocks = document.querySelectorAll('pre')
     
-    codeBlocks.forEach((pre, index) => {
+    codeBlocks.forEach((pre) => {
       // 创建外层容器
       const wrapper = document.createElement('div')
       wrapper.className = 'relative mb-6 group'

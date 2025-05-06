@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { Home, Archive, Info, BookOpen } from "lucide-react"
+import { Archive, Info, BookOpen } from "lucide-react"
 import { usePathname } from "next/navigation"
 
 export function HeaderNav() {

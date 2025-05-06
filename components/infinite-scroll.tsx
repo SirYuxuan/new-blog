@@ -1,14 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-
-interface InfiniteScrollProps {
-  loadMore: () => Promise<void>
-  hasMore: boolean
-  loading: boolean
-  threshold?: number
-  className?: string
-}
+import type { InfiniteScrollProps } from '@/types/infinite-scroll'
 
 export function InfiniteScroll({
   loadMore,
