@@ -2,33 +2,38 @@ import { format } from "date-fns"
 import { zhCN } from "date-fns/locale"
 import type { Note } from "@/types/note"
 
-export function NoteCard({ note }: { note: Note }) {
+export function NoteCard({ note, isLast }: { note: Note; isLast?: boolean }) {
   return (
-    <div className="group relative p-6 rounded-xl
-      bg-zinc-50/50 dark:bg-zinc-800/50
-      hover:bg-zinc-100/50 dark:hover:bg-zinc-800/50 
-      border border-zinc-200/50 dark:border-zinc-700/50
-      hover:border-zinc-300/50 dark:hover:border-zinc-600/50
-      transition-colors">
-      <div className="flex items-center gap-3 mb-3">
-        <img
-          src="/cat.jpg"
-          alt="Jimmy's avatar"
-          className="w-10 h-10 rounded-full object-cover"
-        />
-        <div>
-          <div className="text-sm font-medium text-zinc-700 dark:text-zinc-300">Jimmy</div>
-          <time className="text-xs text-zinc-500/90 dark:text-zinc-400/90">
-            {format(new Date(note.date), "PPP", { locale: zhCN })}
-          </time>
+    <div className="group relative pb-3">
+      {/* 左侧时间线 */}
+      {!isLast && (
+        <div className="absolute left-5 top-0 w-px bottom-[-12px] bg-zinc-200 dark:bg-zinc-700" />
+      )}
+      
+      {/* 头像区域 */}
+      <div className="relative flex items-start gap-3">
+        <div className="relative">
+          <img
+            src="/cat.jpg"
+            alt="Jimmy's avatar"
+            className="w-10 h-10 rounded-full object-cover border-[1px] border-zinc-100 dark:border-zinc-800 shadow-sm"
+          />
         </div>
-      </div>
-
-      <div className="text-zinc-600 dark:text-zinc-400 text-[15px] leading-relaxed 
-        whitespace-pre-wrap break-words
-        group-hover:text-zinc-800 dark:group-hover:text-zinc-300
-        transition-colors duration-300">
-        {note.content}
+        
+        {/* 内容区域 */}
+        <div className="flex-1 pt-1">
+          <div className="flex items-baseline gap-2">
+            <div className="text-sm font-medium text-zinc-800 dark:text-zinc-200">Jimmy</div>
+            <time className="text-xs text-zinc-500 dark:text-zinc-400">
+              {format(new Date(note.date), "PPP", { locale: zhCN })}
+            </time>
+          </div>
+          
+          <div className="mt-2 text-[15px] leading-relaxed text-zinc-800 dark:text-zinc-200
+            whitespace-pre-wrap break-words">
+            {note.content}
+          </div>
+        </div>
       </div>
     </div>
   )
