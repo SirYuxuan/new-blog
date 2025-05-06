@@ -43,9 +43,16 @@ export function NotesPagination({ initialNotes, initialTotal }: {
       const nextPage = page + 1
       const { notes: newNotes, total } = await getPaginatedNotesAction(nextPage, 5)
       
-      setNotes((prevNotes) => [...prevNotes, ...newNotes])
+      // 使用 Set 来去重
+      setNotes((prevNotes) => {
+        const uniqueNotes = Array.from(
+          new Set([...prevNotes, ...newNotes].map(note => JSON.stringify(note)))
+        ).map(str => JSON.parse(str));
+        
+        setHasMore(uniqueNotes.length < total)
+        return uniqueNotes
+      })
       setPage(nextPage)
-      setHasMore(notes.length + newNotes.length < total)
     } catch (error) {
       console.error('Error fetching more notes:', error)
     } finally {
@@ -85,4 +92,4 @@ export function NotesPagination({ initialNotes, initialTotal }: {
       </div>
     </>
   )
-} 
+}

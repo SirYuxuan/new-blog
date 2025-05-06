@@ -3,10 +3,11 @@
 import fs from "fs"
 import path from "path"
 import matter from "gray-matter"
+import { Note } from "@/types/note";
 
 // 缓存实例
 let notesCache: {
-  notes: any[];
+  notes: Note[];
   lastUpdated: number;
 } | null = null;
 
@@ -35,12 +36,8 @@ async function initNotesCache() {
       const fileContents = fs.readFileSync(fullPath, "utf8")
       const matterResult = matter(fileContents)
       
-      // 获取文件修改时间
-      const stats = fs.statSync(fullPath)
-      const mtime = stats.mtimeMs
-      
-      // 使用文件名和修改时间的组合作为唯一 ID
-      const id = `${fileName.replace(/\.md$/, "")}-${mtime}`
+      // 使用文件名作为唯一 ID，不再使用修改时间
+      const id = fileName.replace(/\.md$/, "")
 
       return {
         id,
