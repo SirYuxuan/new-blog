@@ -32,8 +32,8 @@ export default async function NotesPage({
         <Header showBackButton={true} title="随笔" />
 
         <div className="relative mb-8">
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-50/20 via-purple-50/20 to-pink-50/20 dark:from-blue-900/10 dark:via-purple-900/10 dark:to-pink-900/10 blur-3xl" />
-          <div className="relative flex items-center gap-4 p-6 rounded-3xl border border-zinc-100 dark:border-zinc-800 bg-white/70 dark:bg-zinc-900/70 backdrop-blur-sm">
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-50/20 via-purple-50/20 to-pink-50/20 dark:from-blue-700/10 dark:via-purple-900/10 dark:to-pink-900/10 blur-3xl" />
+          <div className="relative flex items-center gap-4 p-6 rounded-3xl bg-zinc-100/10 dark:bg-zinc-900/40 backdrop-blur-md backdrop-saturate-150 border border-zinc-200/50 dark:border-zinc-600/50 hover:border-zinc-300/50 dark:hover:border-zinc-500/50 shadow-[0_1px_3px_0_rgb(0,0,0,0.05)] dark:shadow-[0_1px_3px_0_rgb(0,0,0,0.2)] hover:shadow-[0_5px_15px_0_rgb(0,0,0,0.05)] dark:hover:shadow-[0_5px_15px_0_rgb(0,0,0,0.2)] transition-all duration-300 ease-out">
             <div className="relative">
               <img
                 src="/cat.jpg"
@@ -45,8 +45,8 @@ export default async function NotesPage({
               <div className="flex flex-wrap items-center gap-2 mb-2">
                 <h1 className="text-lg sm:text-xl font-medium bg-gradient-to-br from-zinc-800 to-zinc-600 dark:from-zinc-200 dark:to-zinc-400 bg-clip-text text-transparent">Jimmy</h1>
                 <div className="flex flex-wrap gap-2">
-                  <span className="text-xs px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-400 transition-colors">写作中</span>
-                  <span className="text-xs px-2.5 py-1 rounded-full bg-purple-50 text-purple-700 dark:bg-purple-950/50 dark:text-purple-400 transition-colors">开发中</span>
+                  <span className="text-xs px-2.5 py-1 rounded-full bg-zinc-200/80 text-zinc-700 dark:bg-zinc-800/80 dark:text-zinc-300 transition-colors">写作中</span>
+                  <span className="text-xs px-2.5 py-1 rounded-full bg-zinc-200/80 text-zinc-700 dark:bg-zinc-800/80 dark:text-zinc-300 transition-colors">开发中</span>
                 </div>
               </div>
               <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-3 line-clamp-2 sm:line-clamp-none">在这里记录生活的点点滴滴，分享一些有趣的想法和感受</p>
