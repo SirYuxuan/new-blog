@@ -45,8 +45,8 @@ export default async function NotesPage({
               <div className="flex flex-wrap items-center gap-2 mb-2">
                 <h1 className="text-lg sm:text-xl font-medium bg-gradient-to-br from-zinc-800 to-zinc-600 dark:from-zinc-200 dark:to-zinc-400 bg-clip-text text-transparent">Jimmy</h1>
                 <div className="flex flex-wrap gap-2">
-                  <span className="text-xs px-2.5 py-1 rounded-full bg-zinc-200/80 text-zinc-700 dark:bg-zinc-800/80 dark:text-zinc-300 transition-colors">写作中</span>
-                  <span className="text-xs px-2.5 py-1 rounded-full bg-zinc-200/80 text-zinc-700 dark:bg-zinc-800/80 dark:text-zinc-300 transition-colors">开发中</span>
+                  <span className="text-xs px-2.5 py-1 rounded-full bg-zinc-200/80 border border-zinc-200/50 dark:border-zinc-600/50 text-zinc-700 dark:bg-zinc-800/80 dark:text-zinc-300 transition-colors">写作中</span>
+                  <span className="text-xs px-2.5 py-1 rounded-full bg-zinc-200/80 border border-zinc-200/50 dark:border-zinc-600/50 text-zinc-700 dark:bg-zinc-800/80 dark:text-zinc-300 transition-colors">开发中</span>
                 </div>
               </div>
               <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-3 line-clamp-2 sm:line-clamp-none">在这里记录生活的点点滴滴，分享一些有趣的想法和感受</p>
