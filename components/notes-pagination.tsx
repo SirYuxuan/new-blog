@@ -22,7 +22,7 @@ export function NotesPagination({
   const preloadNextPage = async () => {
     if (page >= totalPages) return
     try {
-      const { notes: nextNotes } = await getPaginatedNotesAction(page + 1, 5)
+      const { notes: nextNotes } = await getPaginatedNotesAction(page + 1, 7)
       return nextNotes
     } catch (error) {
       console.error('Error preloading notes:', error)
@@ -31,62 +31,68 @@ export function NotesPagination({
   }
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      async (entries) => {
-        if (entries[0].isIntersecting && hasMore && !loadingRef.current) {
-          loadingRef.current = true
-          setLoading(true)
+    const options = { 
+      threshold: 0.5,
+      rootMargin: '100px'
+    }
+
+    const handleIntersection = async (entries: IntersectionObserverEntry[]) => {
+      if (entries[0].isIntersecting && hasMore && !loadingRef.current) {
+        loadingRef.current = true
+        setLoading(true)
+        
+        try {
+          const nextPage = page + 1
+          const { notes: newNotes, total } = await getPaginatedNotesAction(nextPage, 7)
           
-          try {
-            const nextPage = page + 1
-            const { notes: newNotes, total } = await getPaginatedNotesAction(nextPage, 5)
-            
-            // 使用 Set 来去重，同时保持顺序
-            setNotes((prevNotes) => {
-              const seen = new Set()
-              const uniqueNotes = [...prevNotes, ...newNotes].filter(note => {
-                const duplicate = seen.has(note.id)
-                seen.add(note.id)
-                return !duplicate
-              })
-              
-              setHasMore(nextPage < totalPages)
-              return uniqueNotes
+          setNotes((prevNotes) => {
+            const seen = new Set()
+            const uniqueNotes = [...prevNotes, ...newNotes].filter(note => {
+              const duplicate = seen.has(note.id)
+              seen.add(note.id)
+              return !duplicate
             })
             
-            setPage(nextPage)
-            
-            // 预加载下一页
-            if (nextPage < totalPages) {
-              preloadNextPage()
-            }
-          } catch (error) {
-            console.error('Error fetching more notes:', error)
-          } finally {
-            setLoading(false)
-            loadingRef.current = false
+            setHasMore(nextPage < totalPages)
+            return uniqueNotes
+          })
+          
+          setPage(nextPage)
+          
+          if (nextPage < totalPages) {
+            preloadNextPage()
           }
+        } catch (error) {
+          console.error('Error fetching more notes:', error)
+        } finally {
+          setLoading(false)
+          loadingRef.current = false
         }
-      },
-      { 
-        threshold: 0.5,
-        rootMargin: '100px'
       }
-    )
+    }
 
-    if (observerTarget.current) {
-      observer.observe(observerTarget.current)
+    const observer = new IntersectionObserver(handleIntersection, options)
+
+    const currentTarget = observerTarget.current
+    if (currentTarget) {
+      observer.observe(currentTarget)
     }
 
     return () => {
-      if (observerTarget.current) {
-        observer.unobserve(observerTarget.current)
+      if (currentTarget) {
+        observer.unobserve(currentTarget)
       }
     }
   }, [hasMore, page, totalPages])
 
   return (
-    <div className="relative min-h-[200px]">
+    <div 
+      className="relative min-h-[200px] overscroll-contain touch-pan-y" 
+      style={{ 
+        WebkitOverflowScrolling: 'touch',
+        scrollBehavior: 'smooth'
+      }}
+    >
       <div className="space-y-3">
         {notes.map((note, index) => (
           <NoteCard 
@@ -100,12 +106,26 @@ export function NotesPagination({
           <div className="space-y-3 transition-opacity duration-300">
             {Array.from({ length: 2 }).map((_, index) => (
               <div 
-                key={index} 
-                className="border-b border-zinc-100 dark:border-zinc-800 pb-6 last:border-0 last:pb-0 opacity-60"
+                key={index}
+                className="group relative pb-3"
               >
-                <div className="space-y-2">
-                  <div className="h-5 w-2/3 bg-zinc-100 dark:bg-zinc-800 rounded animate-pulse" />
-                  <div className="h-3 w-1/4 bg-zinc-100 dark:bg-zinc-800 rounded animate-pulse" />
+                {index !== 1 && (
+                  <div className="absolute left-5 top-0 w-px bottom-[-12px] bg-zinc-200 dark:bg-zinc-700 opacity-40" />
+                )}
+                <div className="relative flex items-start gap-3">
+                  <div className="relative flex-shrink-0">
+                    <div className="w-10 h-10 rounded-full bg-zinc-100 dark:bg-zinc-800 animate-pulse" />
+                  </div>
+                  <div className="flex-1 pt-1 min-w-0">
+                    <div className="flex items-baseline gap-2">
+                      <div className="h-4 w-16 bg-zinc-100 dark:bg-zinc-800 rounded animate-pulse" />
+                      <div className="h-3 w-24 bg-zinc-100 dark:bg-zinc-800 rounded animate-pulse" />
+                    </div>
+                    <div className="mt-2 space-y-2">
+                      <div className="h-4 w-full bg-zinc-100 dark:bg-zinc-800 rounded animate-pulse" />
+                      <div className="h-4 w-4/5 bg-zinc-100 dark:bg-zinc-800 rounded animate-pulse" />
+                    </div>
+                  </div>
                 </div>
               </div>
             ))}
