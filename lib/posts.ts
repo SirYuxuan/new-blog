@@ -8,6 +8,7 @@ export interface Post {
   date: string;
   content: string;
   excerpt: string;
+  tags?: string[];
 }
 
 const postsDirectory = path.join(process.cwd(), 'content/posts');
@@ -27,7 +28,8 @@ export async function getAllPosts(): Promise<Post[]> {
         title: data.title,
         date: data.date,
         content,
-        excerpt: data.excerpt || content.slice(0, 200) + '...'
+        excerpt: data.excerpt || content.slice(0, 200) + '...',
+        tags: data.tags || [],
       };
     });
 

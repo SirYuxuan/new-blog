@@ -40,6 +40,9 @@ export async function generateRssFeed() {
       content: post.content,
       author: [author],
       date: new Date(post.date),
+      category: post.tags && post.tags.length > 0
+        ? post.tags.map(tag => ({ name: tag }))
+        : undefined,
     });
   });
 
