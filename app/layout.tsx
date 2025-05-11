@@ -4,6 +4,7 @@ import { Inter } from "next/font/google"
 import { ThemeProvider } from "@/components/theme-provider"
 import { preloadData } from "@/app/lib/cache"
 import { Analytics } from '@vercel/analytics/react'
+import GoogleAnalytics from "@/components/GoogleAnalytics"
 import "./globals.css"
 
 const inter = Inter({ subsets: ["latin"] })
@@ -37,6 +38,9 @@ export default async function RootLayout({
         >
           {children}
           <Analytics />
+          {process.env.NEXT_PUBLIC_GA_ID && (
+            <GoogleAnalytics GA_MEASUREMENT_ID={process.env.NEXT_PUBLIC_GA_ID} />
+          )}
         </ThemeProvider>
       </body>
     </html>
