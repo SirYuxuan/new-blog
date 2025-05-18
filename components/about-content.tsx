@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react"
 import { Github,  Mail,  Rss, MessageCircle } from "lucide-react"
 import { Footer } from "@/components/footer"
-import Image from "next/image"
+import { OptimizedImage } from "@/components/ui/optimized-image"
 import { Header } from "@/components/header"
 
 const use3DEffect = (ref: React.RefObject<HTMLDivElement | null>, intensity: number = 10) => {
@@ -70,10 +70,11 @@ export function AboutContent() {
               transition-all duration-300 ease-out
               group shrink-0"
           >
-            <Image
+            <OptimizedImage
               src="/logo2.png"
               alt="Jimmy's photo"
-              fill
+              width={192}
+              height={192}
               className="object-cover transition-all duration-300 ease-out"
               priority
               sizes="(max-width: 768px) 128px, 192px"

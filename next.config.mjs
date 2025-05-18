@@ -26,7 +26,7 @@ const nextConfig = {
         hostname: '**',
       },
     ],
-    unoptimized: true,
+    unoptimized: false,
   },
   experimental: {
     webpackBuildWorker: true,
