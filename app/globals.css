@@ -60,15 +60,25 @@
   }
   body {
     @apply bg-background text-foreground transition-colors duration-200;
+    font-family: "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB", "WenQuanYi Micro Hei", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
 }
 
 .prose {
   @apply text-zinc-800 dark:text-zinc-200;
+  font-family: "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB", "WenQuanYi Micro Hei", sans-serif;
 }
 
 .prose p {
-  @apply leading-relaxed my-4;
+  @apply leading-relaxed my-6 text-base;
+  line-height: 2;
+  text-align: justify;
+  text-justify: inter-ideograph;
+  word-break: break-word;
+  hyphens: auto;
 }
 
 .prose a {
@@ -77,46 +87,75 @@
 
 .prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
   @apply font-medium tracking-tight text-zinc-900 dark:text-zinc-100 scroll-m-20;
+  font-family: "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB", "WenQuanYi Micro Hei", sans-serif;
+  font-weight: 600;
 }
 
 .prose h1 {
-  @apply text-3xl mb-6 mt-8;
+  @apply text-4xl mb-8 mt-12;
+  line-height: 1.4;
+  text-align: center;
+  position: relative;
+  padding-bottom: 1rem;
+}
+
+.prose h1::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(to right, transparent, currentColor, transparent);
 }
 
 .prose h2 {
-  @apply text-2xl mb-4 mt-8 border-b border-zinc-200 dark:border-zinc-800 pb-2;
+  @apply text-2xl mb-6 mt-10 border-b border-zinc-200 dark:border-zinc-800 pb-2;
+  line-height: 1.5;
 }
 
 .prose h3 {
-  @apply text-xl mb-3 mt-6;
+  @apply text-xl mb-4 mt-8;
+  line-height: 1.6;
 }
 
 .prose h4 {
-  @apply text-lg mb-2 mt-6;
+  @apply text-lg mb-3 mt-6;
+  line-height: 1.6;
 }
 
 .prose blockquote {
-  @apply border-l-4 border-zinc-300 dark:border-zinc-700 pl-4 py-0 my-2 text-zinc-700 dark:text-zinc-300 italic;
+  @apply border-l-4 border-zinc-300 dark:border-zinc-700 pl-4 py-0 my-6 text-zinc-700 dark:text-zinc-300 italic;
+  font-family: "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB", "WenQuanYi Micro Hei", sans-serif;
+  line-height: 2;
+  text-align: justify;
+  text-justify: inter-ideograph;
 }
 
 .prose ul {
-  @apply list-disc pl-6 my-4 space-y-2;
+  @apply list-disc pl-6 my-6 space-y-2;
 }
 
 .prose ol {
-  @apply list-decimal pl-6 my-4 space-y-2;
+  @apply list-decimal pl-6 my-6 space-y-2;
 }
 
 .prose li {
-  @apply mb-1;
+  @apply mb-2;
+  line-height: 2;
+  text-align: justify;
+  text-justify: inter-ideograph;
 }
 
 .prose code {
   @apply bg-zinc-100 dark:bg-zinc-800 px-1.5 py-0.5 rounded text-sm font-mono text-zinc-800 dark:text-zinc-200;
+  font-family: "SF Mono", "SF Mono SC", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
 .prose pre {
   @apply bg-zinc-100 dark:bg-zinc-800 p-4 rounded-lg overflow-x-auto my-6 text-sm border border-zinc-200 dark:border-zinc-700;
+  font-family: "SF Mono", "SF Mono SC", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
 .prose pre code {
@@ -124,15 +163,22 @@
 }
 
 .prose img {
-  @apply rounded-2xl my-8 mx-auto shadow-md;
+  @apply rounded-xl my-6 mx-auto shadow-md;
+  max-width: 100%;
+  height: auto;
+  display: block;
 }
 
 .prose hr {
-  @apply border-zinc-200 dark:border-zinc-800 my-8;
+  @apply border-zinc-200 dark:border-zinc-800 my-6;
+  position: relative;
+  height: 1px;
+  background: linear-gradient(to right, transparent, currentColor, transparent);
+  border: none;
 }
 
 .prose table {
-  @apply w-full my-8 border-collapse bg-white/50 dark:bg-zinc-900/50 rounded-xl overflow-hidden ring-1 ring-gray-200 dark:ring-zinc-800;
+  @apply w-full my-6 border-collapse bg-white/50 dark:bg-zinc-900/50 rounded-lg overflow-hidden ring-1 ring-gray-200 dark:ring-zinc-800;
 }
 
 .prose thead {
@@ -140,11 +186,12 @@
 }
 
 .prose th {
-  @apply px-6 py-3 text-left text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider;
+  @apply px-4 py-3 text-left text-sm font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider;
 }
 
 .prose td {
-  @apply px-6 py-4 text-sm text-gray-700 dark:text-gray-300 border-b border-gray-200/70 dark:border-zinc-800/70 whitespace-pre-wrap;
+  @apply px-4 py-3 text-sm text-gray-700 dark:text-gray-300 border-b border-gray-200/70 dark:border-zinc-800/70 whitespace-pre-wrap;
+  line-height: 1.8;
 }
 
 .prose tr:hover {
@@ -152,13 +199,14 @@
 }
 
 .prose table caption {
-  @apply px-6 py-2 text-sm text-gray-600 dark:text-gray-400 text-left;
+  @apply px-4 py-2 text-sm text-gray-600 dark:text-gray-400 text-left;
 }
 
 /* KaTeX 样式调整 */
 .katex-inline {
   display: inline-block;
   padding: 0 0.2em;
+  font-family: "SF Mono", "SF Mono SC", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
 .katex-block {
@@ -166,5 +214,6 @@
   margin: 1em 0;
   padding: 1em;
   overflow-x: auto;
+  font-family: "SF Mono", "SF Mono SC", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 

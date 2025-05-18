@@ -1,10 +1,20 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
-import { Github,  Mail,  Rss, MessageCircle } from "lucide-react"
+import { Github,  Mail,  Rss, MessageCircle, User } from "lucide-react"
 import { Footer } from "@/components/footer"
 import { OptimizedImage } from "@/components/ui/optimized-image"
 import { Header } from "@/components/header"
+
+interface Post {
+  id: string
+  title: string
+  date: string
+  excerpt: string
+  tags?: string[]
+  category?: string
+  content: string
+}
 
 const use3DEffect = (ref: React.RefObject<HTMLDivElement | null>, intensity: number = 10) => {
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -37,8 +47,31 @@ const use3DEffect = (ref: React.RefObject<HTMLDivElement | null>, intensity: num
 
 export function AboutContent() {
   const [copied, setCopied] = useState<'email' | 'wechat' | null>(null)
+  const [stats, setStats] = useState({
+    posts: 0,
+    notes: 0,
+    tags: 0,
+    categories: 0
+  })
   const imageRef = useRef<HTMLDivElement>(null)
   const { onMouseMove, onMouseLeave } = use3DEffect(imageRef, 8)
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const response = await fetch('/api/stats')
+        if (!response.ok) {
+          throw new Error('Failed to fetch stats')
+        }
+        const data = await response.json()
+        setStats(data)
+      } catch (error) {
+        console.error('Failed to fetch stats:', error)
+      }
+    }
+
+    fetchStats()
+  }, [])
 
   const copyToClipboard = async (text: string, type: 'email' | 'wechat') => {
     try {
@@ -94,60 +127,19 @@ export function AboutContent() {
                 href="https://about.jimmy-blog.top/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center px-6 py-3 rounded-xl
-                  bg-gradient-to-r from-[#1e293b] via-[#334155] to-[#0f172a]
-                  hover:from-[#334155] hover:via-[#475569] hover:to-[#1e293b]
-                  dark:bg-gradient-to-r dark:from-[#232946] dark:via-[#3b3561] dark:to-[#16161a]
-                  dark:hover:from-[#353570] dark:hover:via-[#5f4b8b] dark:hover:to-[#232946]
-                  text-white
-                  hover:text-white
-                  transition-all duration-1000 cubic-bezier(0.4, 0, 0.2, 1)
+                className="flex items-center px-4 py-2 rounded-lg
+                  bg-zinc-100/50 dark:bg-zinc-800/50
+                  hover:bg-zinc-200/50 dark:hover:bg-zinc-700/50
+                  border border-zinc-200/50 dark:border-zinc-700/50
+                  hover:border-zinc-300/50 dark:hover:border-zinc-600/50
+                  text-zinc-600 dark:text-zinc-400
+                  hover:text-zinc-800 dark:hover:text-zinc-200
+                  transition-all duration-300
                   font-medium
-                  relative
-                  group
-                  hover:scale-110 hover:rotate-1
-                  before:absolute before:inset-0 before:rounded-xl
-                  before:bg-gradient-to-r before:from-[#38BDF8]/30 before:via-[#818CF8]/30 before:to-[#38BDF8]/30
-                  dark:before:from-[#5f4b8b]/40 dark:before:via-[#60a5fa]/40 dark:before:to-[#818cf8]/40
-                  before:blur-2xl before:opacity-0 before:group-hover:opacity-100
-                  before:transition-all before:duration-1000
-                  after:absolute after:inset-0 after:rounded-xl
-                  after:bg-gradient-to-r after:from-[#38BDF8]/15 after:via-[#818CF8]/15 after:to-[#38BDF8]/15
-                  dark:after:from-[#5f4b8b]/25 dark:after:via-[#60a5fa]/25 dark:after:to-[#818cf8]/25
-                  after:blur-xl after:opacity-0 after:group-hover:opacity-100
-                  after:transition-all after:duration-1000
-                  after:delay-150
-                  before:-z-10 after:-z-10
-                  hover:before:scale-150 hover:after:scale-150
-                  hover:before:blur-3xl hover:after:blur-3xl
-                  hover:before:translate-x-2 hover:before:translate-y-2
-                  hover:after:-translate-x-2 hover:after:-translate-y-2
-                  hover:before:rotate-3 hover:after:-rotate-3
-                  overflow-hidden
-                  [&:before]:animate-[shimmer_3s_infinite]
-                  [&:before]:bg-gradient-to-r
-                  [&:before]:from-transparent
-                  [&:before]:via-[#38BDF8]/15
-                  dark:[&:before]:via-[#818cf8]/20
-                  [&:before]:to-transparent
-                  [&:before]:translate-x-[-200%]
-                  [&:before]:skew-x-[-20deg]
-                  border border-[#818cf8]/10
-                  hover:border-[#818cf8]/20
-                  dark:border-[#818cf8]/20
-                  dark:hover:border-[#818cf8]/30
-                  shadow-[0_0_12px_2px_rgba(93,188,252,0.10)]
-                  hover:shadow-[0_0_18px_4px_rgba(93,188,252,0.13)]
-                  dark:shadow-[0_0_24px_8px_rgba(93,188,252,0.10),0_0_60px_8px_rgba(130,88,255,0.08)]
-                  dark:hover:shadow-[0_0_32px_12px_rgba(93,188,252,0.13),0_0_80px_16px_rgba(130,88,255,0.10)]
-                  before:animate-[breath_3s_ease-in-out_infinite]
-                  after:animate-[breath_3s_ease-in-out_infinite]"
+                  group"
               >
-                <span className="h-5 w-5 mr-2 flex items-center justify-center font-medium animate-[pulse_2s_ease-in-out_infinite] group-hover:animate-[spin_3s_linear_infinite]">✨</span>
-                <span className="relative">
-                  Portfolio
-                  <span className="absolute -bottom-1 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/50 to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-out"></span>
-                </span>
+                <User className="h-5 w-5 mr-2" />
+                <span>关于我</span>
               </a>
               <a
                 href="https://github.com/Lily-404"
@@ -240,15 +232,39 @@ export function AboutContent() {
         </div>
 
         <div className="space-y-6">
-          <div className="bg-zinc-50/50 dark:bg-zinc-800/50 rounded-xl p-6 
-            hover:bg-zinc-100/50 dark:hover:bg-zinc-800/50 
-            border border-zinc-200/50 dark:border-zinc-700/50
-            hover:border-zinc-300/50 dark:hover:border-zinc-600/50
-            transition-colors">
-            <h2 className="text-xl font-semibold mb-4">个人简介</h2>
-            <div className="space-y-3 text-zinc-600 dark:text-zinc-400">
-              <p>你好，我是 Jimmy，一名热爱技术和分享的开发者。</p>
-              <p>喜欢探索新技术，关注开发体验和工程化，同时也热衷于写作和分享。</p>
+          <div className="relative mb-8">
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-50/10 via-purple-50/10 to-pink-50/10 dark:from-blue-900/5 dark:via-purple-900/5 dark:to-pink-900/5 blur-3xl" />
+            <div className="relative p-8 rounded-2xl bg-zinc-50/50 dark:bg-zinc-800/50 backdrop-blur-md backdrop-saturate-150 border border-zinc-200/50 dark:border-zinc-700/50 hover:border-zinc-300/50 dark:hover:border-zinc-600/50 transition-all duration-300">
+              <h2 className="text-xl font-semibold mb-4">简介</h2>
+              <div className="space-y-4">
+                <p className="text-sm text-zinc-600 dark:text-zinc-400">在这里记录生活的点点滴滴，分享一些有趣的想法和感受</p>
+                <div className="grid grid-cols-3 gap-4">
+                  <div className="flex flex-col items-center p-4 rounded-xl bg-zinc-50/50 dark:bg-zinc-800/50 
+                    hover:bg-zinc-100/50 dark:hover:bg-zinc-800/50 
+                    border border-zinc-200/50 dark:border-zinc-700/50
+                    hover:border-zinc-300/50 dark:hover:border-zinc-600/50
+                    transition-colors">
+                    <span className="text-xl font-medium text-zinc-800 dark:text-zinc-200 mb-1">{stats.posts}</span>
+                    <span className="text-sm text-zinc-500 dark:text-zinc-400">文章</span>
+                  </div>
+                  <div className="flex flex-col items-center p-4 rounded-xl bg-zinc-50/50 dark:bg-zinc-800/50 
+                    hover:bg-zinc-100/50 dark:hover:bg-zinc-800/50 
+                    border border-zinc-200/50 dark:border-zinc-700/50
+                    hover:border-zinc-300/50 dark:hover:border-zinc-600/50
+                    transition-colors">
+                    <span className="text-xl font-medium text-zinc-800 dark:text-zinc-200 mb-1">{stats.notes}</span>
+                    <span className="text-sm text-zinc-500 dark:text-zinc-400">随笔</span>
+                  </div>
+                  <div className="flex flex-col items-center p-4 rounded-xl bg-zinc-50/50 dark:bg-zinc-800/50 
+                    hover:bg-zinc-100/50 dark:hover:bg-zinc-800/50 
+                    border border-zinc-200/50 dark:border-zinc-700/50
+                    hover:border-zinc-300/50 dark:hover:border-zinc-600/50
+                    transition-colors">
+                    <span className="text-xl font-medium text-zinc-800 dark:text-zinc-200 mb-1">{stats.tags}</span>
+                    <span className="text-sm text-zinc-500 dark:text-zinc-400">标签</span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -257,9 +273,9 @@ export function AboutContent() {
             border border-zinc-200/50 dark:border-zinc-700/50
             hover:border-zinc-300/50 dark:hover:border-zinc-600/50
             transition-colors">
-            <h2 className="text-xl font-semibold mb-4">关于本站</h2>
+            <h2 className="text-xl font-semibold mb-4">本站</h2>
             <div className="space-y-3 text-zinc-600 dark:text-zinc-400">
-              <p>这个博客使用 Next.js构建，主要记录我在技术学习和工作中的心得体会。</p>
+              <p>这个博客使用 Next.js构建，用来记录我在技术学习和工作中的心得体会。</p>
               <p>同时也会分享一些关于生活、阅读的想法。</p>
             </div>
           </div>
@@ -269,7 +285,7 @@ export function AboutContent() {
             border border-zinc-200/50 dark:border-zinc-700/50
             hover:border-zinc-300/50 dark:hover:border-zinc-600/50
             transition-colors">
-            <h2 className="text-xl font-semibold mb-4">开源</h2>
+            <h2 className="text-xl font-semibold mb-4">项目</h2>
             <div className="space-y-3 text-zinc-600 dark:text-zinc-400">
               <p>本博客是开源的，感兴趣的话麻烦点个Star，你可以在 GitHub 查看源码：</p>
               <a 
