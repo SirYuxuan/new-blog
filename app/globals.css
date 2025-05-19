@@ -163,10 +163,12 @@
 }
 
 .prose img {
-  @apply rounded-xl my-6 mx-auto shadow-md;
   max-width: 100%;
   height: auto;
   display: block;
+  width: auto;
+  margin: 0 auto;
+  object-fit: contain;
 }
 
 .prose hr {
