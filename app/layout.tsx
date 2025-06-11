@@ -21,10 +21,7 @@ export const viewport: Viewport = {
 }
 
 export const metadata: Metadata = {
-  title: {
-    default: 'Jimmy Blog',
-    template: '%s | Jimmy Blog'
-  },
+  title: 'Jimmy Blog',
   description: '书写，思考，生活',
   keywords: ['blog', 'technology', 'personal blog', 'next.js'],
   authors: [{ name: 'Jimmy' }],
