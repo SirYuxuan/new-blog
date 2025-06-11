@@ -123,7 +123,7 @@ export function AboutContent() {
               <p className="text-lg text-zinc-600 dark:text-zinc-400">O Captain! My Captain!</p>
             </div>
             <div className="flex flex-wrap justify-center md:justify-start gap-3">
-            <a
+              <a
                 href="https://about.jimmy-blog.top/"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -134,12 +134,11 @@ export function AboutContent() {
                   hover:border-zinc-300/50 dark:hover:border-zinc-600/50
                   text-zinc-600 dark:text-zinc-400
                   hover:text-zinc-800 dark:hover:text-zinc-200
-                  transition-all duration-300
-                  font-medium
+                  transition-colors
                   group"
               >
                 <User className="h-5 w-5 mr-2" />
-                <span>关于我</span>
+                <span>作品集</span>
               </a>
               <a
                 href="https://github.com/Lily-404"
@@ -155,7 +154,7 @@ export function AboutContent() {
                   transition-colors"
               >
                 <Github className="h-5 w-5 mr-2" />
-                GitHub
+                <span>GitHub</span>
               </a>
               <a
                 href="https://okjk.co/ITgDUG"
@@ -170,8 +169,8 @@ export function AboutContent() {
                   hover:text-zinc-800 dark:hover:text-zinc-200
                   transition-colors"
               >
-                <span className="h-5 w-5 mr-2 flex items-center justify-center font-medium">J</span>
-                即刻
+                <span className="h-5 w-5 mr-2 flex items-center justify-center">J</span>
+                <span>即刻</span>
               </a>
               <button
                 onClick={copyEmail}
@@ -185,7 +184,7 @@ export function AboutContent() {
                   transition-colors group relative"
               >
                 <Mail className="h-5 w-5 mr-2" />
-                <span className="text-sm">Email</span>
+                <span>邮箱</span>
                 {copied === 'email' && (
                   <div className="absolute -top-8 left-1/2 -translate-x-1/2 px-2 py-1 bg-zinc-800 text-white text-xs rounded-md whitespace-nowrap">
                     已复制到剪贴板
@@ -204,7 +203,7 @@ export function AboutContent() {
                   transition-colors group relative"
               >
                 <MessageCircle className="h-5 w-5 mr-2" />
-                <span className="text-sm">微信</span>
+                <span>微信</span>
                 {copied === 'wechat' && (
                   <div className="absolute -top-8 left-1/2 -translate-x-1/2 px-2 py-1 bg-zinc-800 text-white text-xs rounded-md whitespace-nowrap">
                     已复制到剪贴板
@@ -225,7 +224,7 @@ export function AboutContent() {
                   transition-colors"
               >
                 <Rss className="h-5 w-5 mr-2" />
-                RSS
+                <span>RSS</span>
               </a>
             </div>
           </div>
@@ -292,8 +291,9 @@ export function AboutContent() {
                 href="https://github.com/Lily-404/blog"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-zinc-800 dark:text-zinc-200 
-                  hover:text-zinc-600 dark:hover:text-zinc-400 
+                className="inline-flex items-center gap-2 
+                  text-zinc-600 dark:text-zinc-400
+                  hover:text-zinc-800 dark:hover:text-zinc-200
                   transition-colors"
               >
                 <Github className="w-5 h-5" />

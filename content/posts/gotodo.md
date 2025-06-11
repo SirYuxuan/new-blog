@@ -20,7 +20,3 @@ GoTodo 的设计理念源于对极简主义的深刻理解：真正的效率不�
 图：
 
 ![todo](/images/3.png)
-
-![todo](/images/4.png)
-
-![todo](../images/2.png)

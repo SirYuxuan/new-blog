@@ -1,5 +1,5 @@
 ---
-title: "英语表达 : 从简单短句到复杂长句"
+title: "像升级宝可梦一样，把英语从 Lv.1 升级到 Lv.10"
 date: "2025-4-11"
 tags: ["English","prompt","AI"]
 ---

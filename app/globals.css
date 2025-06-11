@@ -68,13 +68,13 @@
 }
 
 .prose {
-  @apply text-zinc-800 dark:text-zinc-200;
+  @apply text-zinc-700 dark:text-zinc-300;
   font-family: "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB", "WenQuanYi Micro Hei", sans-serif;
 }
 
 .prose p {
   @apply leading-relaxed my-6 text-base;
-  line-height: 2;
+  line-height: 1.75;
   text-align: justify;
   text-justify: inter-ideograph;
   word-break: break-word;
@@ -86,49 +86,42 @@
 }
 
 .prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
-  @apply font-medium tracking-tight text-zinc-900 dark:text-zinc-100 scroll-m-20;
+  @apply font-medium tracking-tight text-zinc-800 dark:text-zinc-200 scroll-m-20;
   font-family: "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB", "WenQuanYi Micro Hei", sans-serif;
   font-weight: 600;
 }
 
 .prose h1 {
-  @apply text-4xl mb-8 mt-12;
+  @apply text-4xl mb-4 mt-12;
   line-height: 1.4;
   text-align: center;
   position: relative;
-  padding-bottom: 1rem;
+  padding-bottom: 0;
 }
 
 .prose h1::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 60px;
-  height: 2px;
-  background: linear-gradient(to right, transparent, currentColor, transparent);
+  display: none;
 }
 
 .prose h2 {
-  @apply text-2xl mb-6 mt-10 border-b border-zinc-200 dark:border-zinc-800 pb-2;
+  @apply text-2xl mb-3 mt-10 pb-0;
   line-height: 1.5;
 }
 
 .prose h3 {
-  @apply text-xl mb-4 mt-8;
+  @apply text-xl mb-2 mt-8;
   line-height: 1.6;
 }
 
 .prose h4 {
-  @apply text-lg mb-3 mt-6;
+  @apply text-lg mb-2 mt-6;
   line-height: 1.6;
 }
 
 .prose blockquote {
   @apply border-l-4 border-zinc-300 dark:border-zinc-700 pl-4 py-0 my-6 text-zinc-700 dark:text-zinc-300 italic;
   font-family: "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB", "WenQuanYi Micro Hei", sans-serif;
-  line-height: 2;
+  line-height: 1.75;
   text-align: justify;
   text-justify: inter-ideograph;
 }
@@ -143,7 +136,7 @@
 
 .prose li {
   @apply mb-2;
-  line-height: 2;
+  line-height: 1.75;
   text-align: justify;
   text-justify: inter-ideograph;
 }
@@ -174,9 +167,13 @@
 .prose hr {
   @apply border-zinc-200 dark:border-zinc-800 my-6;
   position: relative;
-  height: 1px;
-  background: linear-gradient(to right, transparent, currentColor, transparent);
+  height: 0.5px;
   border: none;
+  background-color: rgb(228 228 231);
+}
+
+.dark .prose hr {
+  background-color: rgb(63 63 70);
 }
 
 .prose table {

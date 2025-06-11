@@ -136,9 +136,9 @@ const config: Config = {
               fontWeight: "600",
               marginTop: "1.75rem",
               marginBottom: "1rem",
-              paddingBottom: "0.5rem",
-              borderBottomWidth: "1px",
-              borderBottomColor: "rgb(228 228 231)",
+              paddingBottom: "0",
+              borderBottomWidth: "0",
+              borderBottomColor: "transparent",
             },
             h3: {
               fontWeight: "600",

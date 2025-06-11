@@ -1,9 +1,11 @@
+import { Suspense } from 'react'
 import { HomeContent } from "@/components/home-content"
 import { getPaginatedPostsAction, getAllTagsAction } from "@/app/actions/posts"
-
+import { getCachedData } from '@/lib/cache'
+import Loading from '@/app/loading'
 
 export const dynamic = 'force-static'
-export const revalidate = false
+export const revalidate = 3600 // 1小时重新验证
 
 // 预加载数据
 export async function generateStaticParams() {
@@ -18,8 +20,8 @@ export async function generateStaticParams() {
 async function getInitialData() {
   try {
     const [posts, tags] = await Promise.all([
-      getPaginatedPostsAction(1, 10, null),
-      getAllTagsAction()
+      getCachedData('posts', () => getPaginatedPostsAction(1, 10, null)),
+      getCachedData('tags', getAllTagsAction)
     ])
     return { posts, tags }
   } catch (error) {
@@ -30,6 +32,11 @@ async function getInitialData() {
 
 export default async function Home() {
   const initialData = await getInitialData()
-  return <HomeContent initialData={initialData} />
+  
+  return (
+    <Suspense fallback={<Loading />}>
+      <HomeContent initialData={initialData} />
+    </Suspense>
+  )
 }
 

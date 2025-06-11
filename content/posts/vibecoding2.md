@@ -1,5 +1,5 @@
 ---
-title: Vibe Coding 后的感悟
+title: AI会写，但产品是你在做
 date: 2025-4-11
 tags: ["开发","AI","产品"]
 ---

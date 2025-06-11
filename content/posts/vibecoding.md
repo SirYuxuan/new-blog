@@ -1,5 +1,5 @@
 ---
-title: "Vibe Coding 正在重塑开发思维"
+title: "Vibe Coding：与 AI 协作的编程新范式"
 date: "2025-4-9"
 tags: ["开发","AI"]
 ---
