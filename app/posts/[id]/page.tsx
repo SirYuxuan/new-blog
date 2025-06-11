@@ -32,6 +32,7 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
   }
 
   const description = post.contentHtml.replace(/<[^>]*>/g, '').slice(0, 200)
+  const url = `https://www.jimmy-blog.top/posts/${params.id}`
 
   return {
     title: post.title,
@@ -44,11 +45,23 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
       publishedTime: post.date,
       authors: ['Jimmy'],
       tags: post.tags,
+      url,
+      siteName: 'Jimmy Blog',
+      locale: 'zh_CN',
+      images: [
+        {
+          url: 'https://www.jimmy-blog.top/og-image.png',
+          width: 1200,
+          height: 630,
+          alt: post.title,
+        },
+      ],
     },
     twitter: {
       card: 'summary_large_image',
       title: post.title,
       description,
+      images: ['https://www.jimmy-blog.top/og-image.png'],
     },
   }
 }

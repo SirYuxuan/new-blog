@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     default: 'Jimmy Blog',
     template: '%s | Jimmy Blog'
   },
-  description: 'Personal blog built with Next.js, sharing thoughts on technology, life and more.',
+  description: '书写，思考，生活',
   keywords: ['blog', 'technology', 'personal blog', 'next.js'],
   authors: [{ name: 'Jimmy' }],
   creator: 'Jimmy',
@@ -35,19 +35,28 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL('https://jimmy-blog.vercel.app'),
+  metadataBase: new URL('https://www.jimmy-blog.top'),
   openGraph: {
     type: 'website',
     locale: 'zh_CN',
-    url: 'https://jimmy-blog.vercel.app',
+    url: 'https://www.jimmy-blog.top',
     title: 'Jimmy Blog',
-    description: 'Personal blog built with Next.js, sharing thoughts on technology, life and more.',
+    description: '书写，思考，生活',
     siteName: 'Jimmy Blog',
+    images: [
+      {
+        url: 'https://www.jimmy-blog.top/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'Jimmy Blog',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Jimmy Blog',
-    description: 'Personal blog built with Next.js, sharing thoughts on technology, life and more.',
+    description: '书写，思考，生活',
+    images: ['https://www.jimmy-blog.top/og-image.png'],
   },
   icons: {
     icon: '/favorite.png',

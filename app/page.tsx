@@ -7,10 +7,10 @@ import Loading from '@/app/loading'
 
 export const metadata: Metadata = {
   title: '首页',
-  description: 'Jimmy 的个人博客，分享技术、生活和思考',
+  description: '书写，思考，生活',
   openGraph: {
     title: 'Jimmy Blog',
-    description: 'Jimmy 的个人博客，分享技术、生活和思考',
+    description: '书写，思考，生活',
   },
 }
 
