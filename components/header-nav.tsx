@@ -1,8 +1,42 @@
 "use client"
 
 import Link from "next/link"
-import { Archive, Info, BookOpen } from "lucide-react"
+import { Archive, User, Pencil, Moon, Sun } from "lucide-react"
 import { usePathname } from "next/navigation"
+import { useTheme } from "next-themes"
+import { useEffect, useState, useCallback } from "react"
+
+// 将主题切换按钮抽离为独立组件
+const ThemeToggleButton = () => {
+  const { theme, setTheme } = useTheme()
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  const toggleTheme = useCallback(() => {
+    setTheme(theme === "dark" ? "light" : "dark")
+  }, [theme, setTheme])
+
+  if (!mounted) {
+    return <div className="w-4 h-4" />
+  }
+
+  return (
+    <button
+      onClick={toggleTheme}
+      className="flex items-center text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-300 transition-colors"
+      aria-label="切换主题"
+    >
+      {theme === "dark" ? (
+        <Sun className="h-4 w-4" />
+      ) : (
+        <Moon className="h-4 w-4" />
+      )}
+    </button>
+  )
+}
 
 export function HeaderNav() {
   const pathname = usePathname()
@@ -32,7 +66,7 @@ export function HeaderNav() {
         href="/notes" 
         className={linkClasses('/notes')}
       >
-        <BookOpen className={iconClasses('/notes')} />
+        <Pencil className={iconClasses('/notes')} />
         <span className="hidden md:inline">随笔</span>
       </Link>
       <Link 
@@ -46,9 +80,10 @@ export function HeaderNav() {
         href="/about" 
         className={linkClasses('/about')}
       >
-        <Info className={iconClasses('/about')} />
+        <User className={iconClasses('/about')} />
         <span className="hidden md:inline">关于</span>
       </Link>
+      <ThemeToggleButton />
     </nav>
   )
 }

@@ -8,20 +8,62 @@ const inter = Inter({
   subsets: ['latin'],
   display: 'swap',
   preload: true,
+  fallback: ['system-ui', 'arial'],
 })
 
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  themeColor: '#ffffff',
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
+    { media: '(prefers-color-scheme: dark)', color: '#18181b' }
+  ],
 }
 
 export const metadata: Metadata = {
-  title: 'Jimmy Blog',
-  description: 'Personal blog built with Next.js',
+  title: {
+    default: 'Jimmy Blog',
+    template: '%s | Jimmy Blog'
+  },
+  description: 'Personal blog built with Next.js, sharing thoughts on technology, life and more.',
+  keywords: ['blog', 'technology', 'personal blog', 'next.js'],
+  authors: [{ name: 'Jimmy' }],
+  creator: 'Jimmy',
+  publisher: 'Jimmy',
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  metadataBase: new URL('https://jimmy-blog.vercel.app'),
+  openGraph: {
+    type: 'website',
+    locale: 'zh_CN',
+    url: 'https://jimmy-blog.vercel.app',
+    title: 'Jimmy Blog',
+    description: 'Personal blog built with Next.js, sharing thoughts on technology, life and more.',
+    siteName: 'Jimmy Blog',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Jimmy Blog',
+    description: 'Personal blog built with Next.js, sharing thoughts on technology, life and more.',
+  },
   icons: {
-    icon: '/favorite.png'
-  }
+    icon: '/favorite.png',
+    apple: '/favorite.png',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
 }
 
 export default function RootLayout({
@@ -44,12 +86,7 @@ export default function RootLayout({
         />
       </head>
       <body className={`${inter.className} bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 antialiased`}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
+        <ThemeProvider>
           {children}
           {process.env.NEXT_PUBLIC_GA_ID && (
             <GoogleAnalytics GA_MEASUREMENT_ID={process.env.NEXT_PUBLIC_GA_ID} />

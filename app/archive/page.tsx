@@ -1,6 +1,16 @@
+import { Metadata } from 'next'
 import { Suspense } from "react"
 import { ArchiveContent } from "@/components/archive-content"
 import { getPostsByYearAction, getAllTagsAction } from "@/app/actions/posts"
+
+export const metadata: Metadata = {
+  title: '归档',
+  description: '按年份和标签归档的所有文章',
+  openGraph: {
+    title: '归档 | Jimmy Blog',
+    description: '按年份和标签归档的所有文章',
+  },
+}
 
 // 设置为完全静态生成
 export const dynamic = 'force-static'

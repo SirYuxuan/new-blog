@@ -1,8 +1,18 @@
+import { Metadata } from 'next'
 import { Suspense } from 'react'
 import { HomeContent } from "@/components/home-content"
 import { getPaginatedPostsAction, getAllTagsAction } from "@/app/actions/posts"
 import { getCachedData } from '@/lib/cache'
 import Loading from '@/app/loading'
+
+export const metadata: Metadata = {
+  title: '首页',
+  description: 'Jimmy 的个人博客，分享技术、生活和思考',
+  openGraph: {
+    title: 'Jimmy Blog',
+    description: 'Jimmy 的个人博客，分享技术、生活和思考',
+  },
+}
 
 export const dynamic = 'force-static'
 export const revalidate = 3600 // 1小时重新验证

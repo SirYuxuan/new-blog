@@ -8,6 +8,7 @@ import { Header } from "@/components/header"
 import { MarkdownContent } from "@/components/markdown-content"
 import { Comments } from "@/components/comments"
 import { ScrollToComments } from "@/components/scroll-to-comments"
+import { Metadata } from 'next'
 
 // 设置为完全静态生成
 export const dynamic = 'force-static'
@@ -19,6 +20,37 @@ export async function generateStaticParams() {
   return posts.map((post) => ({
     id: post.params.id,
   }))
+}
+
+export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
+  const post = await getPostById(params.id)
+  
+  if (!post) {
+    return {
+      title: 'Post Not Found',
+    }
+  }
+
+  const description = post.contentHtml.replace(/<[^>]*>/g, '').slice(0, 200)
+
+  return {
+    title: post.title,
+    description,
+    keywords: post.tags,
+    openGraph: {
+      title: post.title,
+      description,
+      type: 'article',
+      publishedTime: post.date,
+      authors: ['Jimmy'],
+      tags: post.tags,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: post.title,
+      description,
+    },
+  }
 }
 
 export default async function Post({ params }: { params: { id: string } }) {

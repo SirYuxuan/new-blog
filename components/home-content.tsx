@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback, useMemo } from "react"
 import type { PostsData } from "@/types/post"
 import Link from "next/link"
 import { getPaginatedPostsAction, getAllTagsAction } from "@/app/actions/posts"
-import { formatDate, delay } from "@/app/lib/utils"
+import { formatDate } from "@/app/lib/utils"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Footer } from "@/components/footer"
 import { PaginationButtons } from "@/components/pagination-buttons"
@@ -13,25 +13,18 @@ import { Header } from "@/components/header"
 import type { HomeContentProps } from "@/types/home"
 import { articleStyles } from "@/styles/article"
 
-
-
 // 自定义 hook 用于处理标签逻辑
 function useTags(initialTags: Array<{ tag: string; count: number }>) {
-  const [allTags, setAllTags] = useState(initialTags);
+  const [allTags] = useState(initialTags);
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
-  const [isTransitioning, setIsTransitioning] = useState(false);
 
-  const handleTagClick = useCallback(async (tag: string | null) => {
-    setIsTransitioning(true);
+  const handleTagClick = useCallback((tag: string | null) => {
     setSelectedTag(tag);
-    await delay(300);
-    setIsTransitioning(false);
   }, []);
 
   return {
     allTags,
     selectedTag,
-    isTransitioning,
     handleTagClick
   };
 }
@@ -44,23 +37,36 @@ function usePosts(initialPosts: PostsData, selectedTag: string | null) {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    let isMounted = true;
+
     const fetchData = async () => {
+      if (!isMounted) return;
+      
       setLoading(true);
       setError(null);
       
       try {
         const posts = await getPaginatedPostsAction(currentPage, 10, selectedTag);
-        setPostsData(posts as PostsData);
+        if (isMounted) {
+          setPostsData(posts as PostsData);
+        }
       } catch (error) {
-        console.error('Error fetching data:', error);
-        setError('加载文章失败，请稍后重试');
+        if (isMounted) {
+          console.error('Error fetching data:', error);
+          setError('加载文章失败，请稍后重试');
+        }
       } finally {
-        setLoading(false);
+        if (isMounted) {
+          setLoading(false);
+        }
       }
     };
 
-    // 当 selectedTag 为 null 时，也重新获取数据
     fetchData();
+
+    return () => {
+      isMounted = false;
+    };
   }, [currentPage, selectedTag]);
 
   const handlePageChange = useCallback((page: number) => {
@@ -77,7 +83,7 @@ function usePosts(initialPosts: PostsData, selectedTag: string | null) {
 }
 
 export function HomeContent({ initialData }: HomeContentProps) {
-  const { allTags, selectedTag, isTransitioning, handleTagClick } = useTags(initialData.tags);
+  const { allTags, selectedTag, handleTagClick } = useTags(initialData.tags);
   const { currentPage, postsData, loading, error, handlePageChange } = usePosts(initialData.posts, selectedTag);
 
   // 使用 useMemo 优化标签渲染
@@ -105,7 +111,7 @@ export function HomeContent({ initialData }: HomeContentProps) {
 
   // 使用 useMemo 优化文章列表渲染
   const postElements = useMemo(() => (
-    <div className={`space-y-4 transition-opacity duration-300 ${isTransitioning ? 'opacity-50' : 'opacity-100'}`}>
+    <div className="space-y-4">
       {loading ? (
         <>
           {Array.from({ length: 10 }).map((_, index) => (
@@ -141,7 +147,7 @@ export function HomeContent({ initialData }: HomeContentProps) {
         </p>
       )}
     </div>
-  ), [loading, error, postsData.posts, isTransitioning]);
+  ), [loading, error, postsData.posts]);
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-6">

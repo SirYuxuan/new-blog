@@ -1,6 +1,5 @@
 import Link from "next/link"
 import { ArrowLeft } from "lucide-react"
-import { ThemeToggle } from "@/components/theme-toggle"
 import { HeaderNav } from "@/components/header-nav"
 import type { HeaderProps } from "@/types/header"
 
@@ -24,10 +23,7 @@ export function Header({ showBackButton = false, backButtonHref = "/", showNav =
           </h1>
         </div>
         <div className="flex items-center gap-4">
-          <nav className="flex items-center space-x-4 text-sm">
-            <HeaderNav />
-            <ThemeToggle />
-          </nav>
+          <HeaderNav />
         </div>
       </header>
     )
@@ -60,7 +56,6 @@ export function Header({ showBackButton = false, backButtonHref = "/", showNav =
       </div>
       <div className="flex items-center gap-4">
         {showNav && <HeaderNav />}
-        <ThemeToggle />
       </div>
     </header>
   )
