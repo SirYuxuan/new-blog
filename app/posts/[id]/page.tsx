@@ -6,9 +6,9 @@ import { Layout } from "@/components/layout"
 import { Tags } from "@/components/tag"
 import { Header } from "@/components/header"
 import { MarkdownContent } from "@/components/markdown-content"
-import { Comments } from "@/components/comments"
-import { ScrollToComments } from "@/components/scroll-to-comments"
+
 import { Metadata } from 'next'
+
 
 // 设置为完全静态生成
 export const dynamic = 'force-static'
@@ -23,7 +23,8 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
-  const post = await getPostById(params.id)
+  const resolvedParams = await Promise.resolve(params)
+  const post = await getPostById(resolvedParams.id)
   
   if (!post) {
     return {
@@ -32,7 +33,7 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
   }
 
   const description = post.contentHtml.replace(/<[^>]*>/g, '').slice(0, 200)
-  const url = `https://www.jimmy-blog.top/posts/${params.id}`
+  const url = `https://www.jimmy-blog.top/posts/${resolvedParams.id}`
 
   return {
     title: post.title,
@@ -100,14 +101,8 @@ export default async function Post({ params }: { params: { id: string } }) {
                 <Tags tags={post.tags} className="mt-2" interactive={false} />
               )}
             </header>
-
             <MarkdownContent content={post.contentHtml} />
-            <div id="comments">
-              <Comments />
-            </div>
           </article>
-
-          <ScrollToComments />
           <Footer />
         </div>
       </Layout>
