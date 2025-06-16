@@ -22,6 +22,9 @@ export function OptimizedImage({
 
   return (
     <div className={`relative overflow-hidden ${className}`}>
+      {isLoading && (
+        <div className="absolute inset-0 bg-zinc-100 dark:bg-zinc-800 animate-pulse" />
+      )}
       <Image
         src={src}
         alt={alt}

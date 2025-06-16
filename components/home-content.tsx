@@ -35,14 +35,23 @@ function usePosts(initialPosts: PostsData, selectedTag: string | null) {
   const [postsData, setPostsData] = useState(initialPosts);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [loadedPages] = useState(new Set<number>());
+
+  // 当标签改变时，重置页码
+  useEffect(() => {
+    setCurrentPage(1);
+    // 如果是全部标签，使用初始数据
+    if (selectedTag === null) {
+      setPostsData(initialPosts);
+    }
+  }, [selectedTag, initialPosts]);
 
   useEffect(() => {
     let isMounted = true;
 
     const fetchData = async () => {
-      // 如果已经加载过这一页，直接返回
-      if (loadedPages.has(currentPage) && !selectedTag) {
+      // 如果是第一页且是全部标签，使用初始数据
+      if (currentPage === 1 && selectedTag === null) {
+        setPostsData(initialPosts);
         return;
       }
 
@@ -55,10 +64,6 @@ function usePosts(initialPosts: PostsData, selectedTag: string | null) {
         const posts = await getPaginatedPostsAction(currentPage, 10, selectedTag);
         if (isMounted) {
           setPostsData(posts as PostsData);
-          // 记录已加载的页面
-          if (!selectedTag) {
-            loadedPages.add(currentPage);
-          }
         }
       } catch (error) {
         if (isMounted) {
@@ -77,10 +82,12 @@ function usePosts(initialPosts: PostsData, selectedTag: string | null) {
     return () => {
       isMounted = false;
     };
-  }, [currentPage, selectedTag, loadedPages]);
+  }, [currentPage, selectedTag, initialPosts]);
 
   const handlePageChange = useCallback((page: number) => {
     setCurrentPage(page);
+    // 滚动到页面顶部
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
   return {
@@ -98,31 +105,29 @@ export function HomeContent({ initialData }: HomeContentProps) {
 
   // 使用 useMemo 优化标签渲染
   const tagElements = useMemo(() => (
-    <div className="mb-8">
-      <div className="flex flex-wrap gap-2">
+    <div className="flex flex-wrap gap-2">
+      <Tag
+        tag="全部"
+        onClick={() => handleTagClick(null)}
+        interactive={true}
+        className={selectedTag === null ? 'bg-zinc-200 dark:bg-zinc-700 text-zinc-800 dark:text-zinc-200' : ''}
+      />
+      {allTags.map(({ tag }) => (
         <Tag
-          tag="全部"
-          onClick={() => handleTagClick(null)}
+          key={tag}
+          tag={tag}
+          onClick={() => handleTagClick(tag)}
           interactive={true}
-          className={selectedTag === null ? 'bg-zinc-200 dark:bg-zinc-700 text-zinc-800 dark:text-zinc-200' : ''}
+          className={selectedTag === tag ? 'bg-zinc-200 dark:bg-zinc-700 text-zinc-800 dark:text-zinc-200' : ''}
         />
-        {allTags.map(({ tag }) => (
-          <Tag
-            key={tag}
-            tag={tag}
-            onClick={() => handleTagClick(tag)}
-            interactive={true}
-            className={selectedTag === tag ? 'bg-zinc-200 dark:bg-zinc-700 text-zinc-800 dark:text-zinc-200' : ''}
-          />
-        ))}
-      </div>
+      ))}
     </div>
   ), [allTags, selectedTag, handleTagClick]);
 
   // 使用 useMemo 优化文章列表渲染
   const postElements = useMemo(() => (
     <div className="space-y-4">
-      {loading ? (
+      {loading && !postsData.posts.length ? (
         <>
           {Array.from({ length: 10 }).map((_, index) => (
             <article key={index} className={articleStyles.baseClass}>
@@ -163,16 +168,20 @@ export function HomeContent({ initialData }: HomeContentProps) {
     <div className="max-w-2xl mx-auto px-4 py-6">
       <Header isHome={true} />
 
-      <main>
+      <main className="min-h-[200px]">
         {/* 标签云区域 */}
-        {allTags.length > 0 && tagElements}
+        <div className="mb-8">
+          {allTags.length > 0 && tagElements}
+        </div>
 
         {/* 文章列表 */}
-        {postElements}
+        <div className="min-h-[100px]">
+          {postElements}
+        </div>
 
         {/* 分页控制 */}
         {!loading && !error && postsData.totalPages > 1 && (
-          <div className="mt-8">
+          <div className="mt-4">
             <PaginationButtons 
               currentPage={currentPage} 
               totalPages={postsData.totalPages} 
@@ -182,7 +191,6 @@ export function HomeContent({ initialData }: HomeContentProps) {
           </div>
         )}
       </main>
-
       <Footer />
     </div>
   )

@@ -37,23 +37,21 @@ function usePosts(initialPosts: PostsByYear, selectedTag: string | null) {
   const [postsByYear, setPostsByYear] = useState(initialPosts);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [loadedTags] = useState(new Set<string | null>());
 
   useEffect(() => {
-    const fetchData = async () => {
-      // 如果已经加载过这个标签的数据，直接返回
-      if (loadedTags.has(selectedTag)) {
-        return;
-      }
+    // 如果是全部标签，使用初始数据
+    if (selectedTag === null) {
+      setPostsByYear(initialPosts);
+      return;
+    }
 
+    const fetchData = async () => {
       setLoading(true);
       setError(null);
       
       try {
         const posts = await getPostsByYearAction(selectedTag);
         setPostsByYear(posts);
-        // 记录已加载的标签
-        loadedTags.add(selectedTag);
       } catch (error) {
         console.error('Error fetching data:', error);
         setError('加载文章失败，请稍后重试');
@@ -63,7 +61,7 @@ function usePosts(initialPosts: PostsByYear, selectedTag: string | null) {
     };
 
     fetchData();
-  }, [selectedTag, loadedTags]);
+  }, [selectedTag, initialPosts]);
 
   return {
     postsByYear,
@@ -102,7 +100,7 @@ export function ArchiveContent({ initialData }: ArchiveContentProps) {
   // 使用 useMemo 优化文章列表渲染
   const postElements = useMemo(() => (
     <div className={`space-y-6 transition-opacity duration-300 ${isTransitioning ? 'opacity-50' : 'opacity-100'}`}>
-      {loading ? (
+      {loading && Object.keys(postsByYear).length === 0 ? (
         <>
           {Array.from({ length: 3 }).map((_, index) => (
             <div key={index} className="space-y-4">
