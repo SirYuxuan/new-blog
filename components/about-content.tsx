@@ -16,6 +16,14 @@ interface Post {
   content: string
 }
 
+interface AboutContentProps {
+  initialStats: {
+    posts: number;
+    notes: number;
+    tags: number;
+  };
+}
+
 const use3DEffect = (ref: React.RefObject<HTMLDivElement | null>, intensity: number = 10) => {
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!ref.current) return
@@ -45,33 +53,11 @@ const use3DEffect = (ref: React.RefObject<HTMLDivElement | null>, intensity: num
   }
 }
 
-export function AboutContent() {
+export function AboutContent({ initialStats }: AboutContentProps) {
   const [copied, setCopied] = useState<'email' | 'wechat' | null>(null)
-  const [stats, setStats] = useState({
-    posts: 0,
-    notes: 0,
-    tags: 0,
-    categories: 0
-  })
+  const [stats, setStats] = useState(initialStats)
   const imageRef = useRef<HTMLDivElement>(null)
   const { onMouseMove, onMouseLeave } = use3DEffect(imageRef, 8)
-
-  useEffect(() => {
-    const fetchStats = async () => {
-      try {
-        const response = await fetch('/api/stats')
-        if (!response.ok) {
-          throw new Error('Failed to fetch stats')
-        }
-        const data = await response.json()
-        setStats(data)
-      } catch (error) {
-        console.error('Failed to fetch stats:', error)
-      }
-    }
-
-    fetchStats()
-  }, [])
 
   const copyToClipboard = async (text: string, type: 'email' | 'wechat') => {
     try {

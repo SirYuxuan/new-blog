@@ -37,15 +37,23 @@ function usePosts(initialPosts: PostsByYear, selectedTag: string | null) {
   const [postsByYear, setPostsByYear] = useState(initialPosts);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [loadedTags] = useState(new Set<string | null>());
 
   useEffect(() => {
     const fetchData = async () => {
+      // 如果已经加载过这个标签的数据，直接返回
+      if (loadedTags.has(selectedTag)) {
+        return;
+      }
+
       setLoading(true);
       setError(null);
       
       try {
         const posts = await getPostsByYearAction(selectedTag);
         setPostsByYear(posts);
+        // 记录已加载的标签
+        loadedTags.add(selectedTag);
       } catch (error) {
         console.error('Error fetching data:', error);
         setError('加载文章失败，请稍后重试');
@@ -54,9 +62,8 @@ function usePosts(initialPosts: PostsByYear, selectedTag: string | null) {
       }
     };
 
-    // 当 selectedTag 为 null 时，也重新获取数据
     fetchData();
-  }, [selectedTag]);
+  }, [selectedTag, loadedTags]);
 
   return {
     postsByYear,

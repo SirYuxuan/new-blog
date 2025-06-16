@@ -17,6 +17,7 @@ export function NotesPagination({
   const [hasMore, setHasMore] = useState(page < totalPages)
   const observerTarget = useRef<HTMLDivElement>(null)
   const loadingRef = useRef(false)
+  const [loadedPages] = useState(new Set<number>([initialPage]))
 
   // 预加载下一页数据
   const preloadNextPage = async () => {
@@ -38,11 +39,17 @@ export function NotesPagination({
 
     const handleIntersection = async (entries: IntersectionObserverEntry[]) => {
       if (entries[0].isIntersecting && hasMore && !loadingRef.current) {
+        const nextPage = page + 1
+        
+        // 如果已经加载过这一页，直接使用缓存的数据
+        if (loadedPages.has(nextPage)) {
+          return
+        }
+
         loadingRef.current = true
         setLoading(true)
         
         try {
-          const nextPage = page + 1
           const { notes: newNotes, total } = await getPaginatedNotesAction(nextPage, 7)
           
           setNotes((prevNotes) => {
@@ -58,6 +65,7 @@ export function NotesPagination({
           })
           
           setPage(nextPage)
+          loadedPages.add(nextPage)
           
           if (nextPage < totalPages) {
             preloadNextPage()
@@ -83,7 +91,7 @@ export function NotesPagination({
         observer.unobserve(currentTarget)
       }
     }
-  }, [hasMore, page, totalPages])
+  }, [hasMore, page, totalPages, loadedPages])
 
   return (
     <div 
@@ -102,7 +110,7 @@ export function NotesPagination({
           />
         ))}
 
-        {loading && (
+        {loading && !loadedPages.has(page + 1) && (
           <div className="space-y-3 transition-opacity duration-300">
             {Array.from({ length: 2 }).map((_, index) => (
               <div 

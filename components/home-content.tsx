@@ -35,11 +35,17 @@ function usePosts(initialPosts: PostsData, selectedTag: string | null) {
   const [postsData, setPostsData] = useState(initialPosts);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [loadedPages] = useState(new Set<number>());
 
   useEffect(() => {
     let isMounted = true;
 
     const fetchData = async () => {
+      // 如果已经加载过这一页，直接返回
+      if (loadedPages.has(currentPage) && !selectedTag) {
+        return;
+      }
+
       if (!isMounted) return;
       
       setLoading(true);
@@ -49,6 +55,10 @@ function usePosts(initialPosts: PostsData, selectedTag: string | null) {
         const posts = await getPaginatedPostsAction(currentPage, 10, selectedTag);
         if (isMounted) {
           setPostsData(posts as PostsData);
+          // 记录已加载的页面
+          if (!selectedTag) {
+            loadedPages.add(currentPage);
+          }
         }
       } catch (error) {
         if (isMounted) {
@@ -67,7 +77,7 @@ function usePosts(initialPosts: PostsData, selectedTag: string | null) {
     return () => {
       isMounted = false;
     };
-  }, [currentPage, selectedTag]);
+  }, [currentPage, selectedTag, loadedPages]);
 
   const handlePageChange = useCallback((page: number) => {
     setCurrentPage(page);

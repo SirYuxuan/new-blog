@@ -10,14 +10,17 @@ export function Tag({ tag, onClick, className, interactive = false }: TagProps) 
     "transition-colors duration-200",
     "border border-zinc-200/50 dark:border-zinc-700/50",
     "hover:border-zinc-400/70 dark:hover:border-zinc-500/70",
+    "hover:shadow-sm dark:hover:shadow-zinc-800/50",
     className
   )
 
   const selectedClasses = cn(
     "bg-zinc-200 dark:bg-zinc-700",
     "text-zinc-800 dark:text-zinc-200",
-    "border border-zinc-300/70 dark:border-zinc-600/70",
-    "hover:border-zinc-400/70 dark:hover:border-zinc-500/70"
+    "border border-zinc-400/70 dark:border-zinc-500/70",
+    "shadow-sm dark:shadow-zinc-800/50",
+    "hover:bg-zinc-300 dark:hover:bg-zinc-600",
+    "hover:border-zinc-500/70 dark:hover:border-zinc-400/70"
   )
 
   if (interactive) {
