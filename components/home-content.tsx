@@ -52,6 +52,7 @@ function usePosts(initialPosts: PostsData, selectedTag: string | null) {
       // 如果是第一页且是全部标签，使用初始数据
       if (currentPage === 1 && selectedTag === null) {
         setPostsData(initialPosts);
+        setLoading(false);
         return;
       }
 
@@ -85,10 +86,18 @@ function usePosts(initialPosts: PostsData, selectedTag: string | null) {
   }, [currentPage, selectedTag, initialPosts]);
 
   const handlePageChange = useCallback((page: number) => {
+    // 如果切换到第一页且是全部标签，直接使用初始数据
+    if (page === 1 && selectedTag === null) {
+      setPostsData(initialPosts);
+      setCurrentPage(1);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+    
+    setLoading(true);
     setCurrentPage(page);
-    // 滚动到页面顶部
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, []);
+  }, [selectedTag, initialPosts]);
 
   return {
     currentPage,
@@ -127,7 +136,7 @@ export function HomeContent({ initialData }: HomeContentProps) {
   // 使用 useMemo 优化文章列表渲染
   const postElements = useMemo(() => (
     <div className="space-y-4">
-      {loading && !postsData.posts.length ? (
+      {loading ? (
         <>
           {Array.from({ length: 10 }).map((_, index) => (
             <article key={index} className={articleStyles.baseClass}>
