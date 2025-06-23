@@ -3,7 +3,7 @@ import type { TagProps, TagsProps } from '@/types/tag'
 
 export function Tag({ tag, onClick, className, interactive = false }: TagProps) {
   const baseClasses = cn(
-    "inline-flex items-center px-3 py-1 rounded-full text-xs font-medium",
+    "inline-flex items-center px-3 py-1 rounded-full text-xs font-normal",
     "bg-zinc-100 dark:bg-zinc-800",
     "text-zinc-600 dark:text-zinc-300",
     "hover:bg-zinc-200 dark:hover:bg-zinc-700",

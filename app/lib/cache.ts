@@ -117,7 +117,8 @@ export async function getPaginatedPosts(page: number = 1, pageSize: number = 10,
 // 获取所有标签
 export async function getAllTags() {
   const cache = await getCache()
-  return cache.tags
+  // 保证每次返回都排序，防止缓存被污染或外部修改
+  return [...cache.tags].sort((a, b) => b.count - a.count)
 }
 
 // 获取按年份分组的文章

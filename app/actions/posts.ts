@@ -19,7 +19,7 @@ export async function getPaginatedPostsAction(page: number = 1, pageSize: number
 export async function getAllTagsAction() {
   try {
     const tags = await getAllTags()
-    return tags
+    return [...tags].sort((a, b) => b.count - a.count)
   } catch (error) {
     console.error('Error in getAllTagsAction:', error)
     return []
