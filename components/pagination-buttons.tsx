@@ -23,7 +23,7 @@ export function PaginationButtons({
         <ChevronLeft className="h-5 w-5" />
       </Button>
       
-      <div className="flex items-center gap-1.5">
+      <div className="flex items-center gap-3">
         {Array.from({ length: totalPages }).map((_, index) => {
           const pageNumber = index + 1;
           // 只显示当前页附近的页码和首尾页

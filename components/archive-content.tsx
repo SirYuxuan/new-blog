@@ -10,6 +10,7 @@ import { Footer } from "@/components/footer"
 import { Tag } from "@/components/tag"
 import { Header } from "@/components/header"
 import type { ArchiveContentProps } from "@/types/archive"
+import { format } from "date-fns"
 
 
 function useTags(initialTags: Array<{ tag: string; count: number }>) {
@@ -123,7 +124,7 @@ export function ArchiveContent({ initialData }: ArchiveContentProps) {
           .sort((a, b) => Number(b[0]) - Number(a[0]))
           .map(([year, posts]) => (
           <div key={year} className="space-y-4">
-            <h2 className="text-lg font-medium">{year}</h2>
+            <h2 className="text-2xl font-bold">{year}</h2>
             <div className="space-y-2">
               {posts.map((post) => (
                 <Link
@@ -135,7 +136,7 @@ export function ArchiveContent({ initialData }: ArchiveContentProps) {
                     {post.title}
                   </span>
                   <time className="text-xs text-zinc-400 dark:text-zinc-500 flex-shrink-0 font-mono tabular-nums">
-                    {new Date(post.date).toLocaleDateString('zh-CN', { month: '2-digit', day: '2-digit' }).replace(/\//g, '/').replace(/月/g, '/').replace('日', '')}
+                    {format(new Date(post.date), "MM/dd")}
                   </time>
                 </Link>
               ))}

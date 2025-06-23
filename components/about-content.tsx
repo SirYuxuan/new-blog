@@ -94,14 +94,11 @@ export function AboutContent({ initialStats }: AboutContentProps) {
               alt="Jimmy's photo"
               width={192}
               height={192}
-              className="object-cover transition-all duration-300 ease-out"
+              className="object-cover transition-all duration-300 ease-out dark:invert"
               priority
               sizes="(max-width: 768px) 128px, 192px"
               quality={75}
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-zinc-900/50 to-transparent 
-              opacity-0 dark:opacity-100
-              transition-all duration-300 ease-out" />
           </div>
           <div className="flex-1 space-y-6 text-center md:text-left">
             <div>

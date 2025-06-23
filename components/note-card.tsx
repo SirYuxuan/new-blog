@@ -24,7 +24,7 @@ export function NoteCard({ note, isLast }: { note: Note; isLast?: boolean }) {
         <div className="flex-1 -mt-1">
           <div className="flex items-baseline gap-2">
             <div className="text-sm font-medium text-zinc-800 dark:text-zinc-200">Jimmy</div>
-            <time className="text-xs text-zinc-500 dark:text-zinc-400">
+            <time className="text-xs text-zinc-400 dark:text-zinc-500 font-mono tabular-nums">
               {format(new Date(note.date), "yyyy/MM/dd")}
             </time>
           </div>
