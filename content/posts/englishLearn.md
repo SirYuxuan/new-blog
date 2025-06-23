@@ -1,7 +1,7 @@
 ---
 title: "像升级宝可梦一样，把英语从 Lv.1 升级到 Lv.10"
 date: "2025-4-11"
-tags: ["English","prompt","AI"]
+tags: ["英语","prompt","AI"]
 ---
 这个prompt的灵感来源于我当时观看一位YouTube的博主英语教学视频，他的教学方式让我震惊：从一个简单的句子开始，层层递进，将其扩展为更复杂的表达语句，这种方式让我快速掌握长难句的表达，当然，我强烈推荐他的视频[English is EZ with Connor](https://www.youtube.com/@EnglishisEZ)后面我会推荐一些高质量YouTube博主（不同领域)
 

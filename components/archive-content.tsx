@@ -119,7 +119,9 @@ export function ArchiveContent({ initialData }: ArchiveContentProps) {
       ) : error ? (
         <p className="text-red-500 dark:text-red-400 text-sm">{error}</p>
       ) : Object.entries(postsByYear).length > 0 ? (
-        Object.entries(postsByYear).map(([year, posts]) => (
+        Object.entries(postsByYear)
+          .sort((a, b) => Number(b[0]) - Number(a[0]))
+          .map(([year, posts]) => (
           <div key={year} className="space-y-4">
             <h2 className="text-lg font-medium">{year}</h2>
             <div className="space-y-2">
@@ -132,8 +134,8 @@ export function ArchiveContent({ initialData }: ArchiveContentProps) {
                   <span className="text-base font-normal group-hover:text-zinc-700 dark:group-hover:text-zinc-300 transition-colors duration-200 truncate mr-4">
                     {post.title}
                   </span>
-                  <time className="text-xs text-zinc-400 dark:text-zinc-500 flex-shrink-0">
-                    {new Date(post.date).toLocaleDateString('zh-CN', { month: 'long', day: 'numeric' })}
+                  <time className="text-xs text-zinc-400 dark:text-zinc-500 flex-shrink-0 font-mono tabular-nums">
+                    {new Date(post.date).toLocaleDateString('zh-CN', { month: '2-digit', day: '2-digit' }).replace(/\//g, '/').replace(/月/g, '/').replace('日', '')}
                   </time>
                 </Link>
               ))}

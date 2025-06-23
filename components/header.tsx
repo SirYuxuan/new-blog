@@ -9,14 +9,12 @@ export function Header({ showBackButton = false, backButtonHref = "/", showNav =
     return (
       <header className="mb-6 flex justify-between items-center">
         <div className="flex items-center gap-3">
-          <OptimizedImage
+          <img
             src="/cat.jpg"
             alt="Jimmy's avatar"
             width={40}
             height={40}
             className="w-10 h-10 rounded-full object-cover"
-            sizes="40px"
-            quality={70}
           />
           <h1 
             className="text-xl font-medium tracking-tight hover:text-zinc-700 dark:hover:text-zinc-300 transition-colors cursor-pointer"

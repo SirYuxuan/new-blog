@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useRef, useCallback } from "react"
 import { getPaginatedNotesAction } from "@/app/actions/notes"
 import { NoteCard } from "./note-card"
 import type { NotesPaginationProps } from "@/types/notes"
@@ -15,128 +15,106 @@ export function NotesPagination({
   const [page, setPage] = useState(initialPage)
   const [loading, setLoading] = useState(false)
   const [hasMore, setHasMore] = useState(page < totalPages)
+  const [error, setError] = useState<string | null>(null)
   const observerTarget = useRef<HTMLDivElement>(null)
   const loadingRef = useRef(false)
-  const [loadedPages] = useState(new Set<number>([initialPage]))
+  const loadedPages = useRef(new Set<number>([initialPage]))
 
-  // 预加载下一页数据
-  const preloadNextPage = async () => {
-    if (page >= totalPages) return
+  // 预加载下一页
+  const preloadNextPage = useCallback(async () => {
+    if (page >= totalPages || loadedPages.current.has(page + 1)) return
     try {
-      const { notes: nextNotes } = await getPaginatedNotesAction(page + 1, 7)
-      return nextNotes
-    } catch (error) {
-      console.error('Error preloading notes:', error)
-      return null
-    }
-  }
+      await getPaginatedNotesAction(page + 1, 10)
+    } catch {}
+  }, [page, totalPages])
 
+  // 加载下一页
+  const loadNextPage = useCallback(async () => {
+    if (loadingRef.current || !hasMore || loadedPages.current.has(page + 1)) return
+    loadingRef.current = true
+    setLoading(true)
+    setError(null)
+    try {
+      const { notes: newNotes } = await getPaginatedNotesAction(page + 1, 10)
+      setNotes(prev => {
+        const seen = new Set(prev.map(n => n.id))
+        const unique = [...prev, ...newNotes.filter(n => !seen.has(n.id))]
+        return unique
+      })
+      setPage(prev => prev + 1)
+      loadedPages.current.add(page + 1)
+      setHasMore(page + 1 < totalPages)
+      // 预加载下下页
+      if (page + 1 < totalPages) preloadNextPage()
+    } catch (err) {
+      setError("加载失败，请重试")
+    } finally {
+      setLoading(false)
+      loadingRef.current = false
+    }
+  }, [page, hasMore, totalPages, preloadNextPage])
+
+  // IntersectionObserver 自动加载
   useEffect(() => {
-    const options = { 
-      threshold: 0.5,
-      rootMargin: '100px'
-    }
-
-    const handleIntersection = async (entries: IntersectionObserverEntry[]) => {
-      if (entries[0].isIntersecting && hasMore && !loadingRef.current) {
-        const nextPage = page + 1
-        
-        // 如果已经加载过这一页，直接使用缓存的数据
-        if (loadedPages.has(nextPage)) {
-          return
-        }
-
-        loadingRef.current = true
-        setLoading(true)
-        
-        try {
-          const { notes: newNotes, total } = await getPaginatedNotesAction(nextPage, 7)
-          
-          setNotes((prevNotes) => {
-            const seen = new Set()
-            const uniqueNotes = [...prevNotes, ...newNotes].filter(note => {
-              const duplicate = seen.has(note.id)
-              seen.add(note.id)
-              return !duplicate
-            })
-            
-            setHasMore(nextPage < totalPages)
-            return uniqueNotes
-          })
-          
-          setPage(nextPage)
-          loadedPages.add(nextPage)
-          
-          if (nextPage < totalPages) {
-            preloadNextPage()
-          }
-        } catch (error) {
-          console.error('Error fetching more notes:', error)
-        } finally {
-          setLoading(false)
-          loadingRef.current = false
-        }
+    if (!hasMore) return
+    const options = { threshold: 0.5, rootMargin: '100px' }
+    const observer = new window.IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        loadNextPage()
       }
-    }
-
-    const observer = new IntersectionObserver(handleIntersection, options)
-
-    const currentTarget = observerTarget.current
-    if (currentTarget) {
-      observer.observe(currentTarget)
-    }
-
-    return () => {
-      if (currentTarget) {
-        observer.unobserve(currentTarget)
-      }
-    }
-  }, [hasMore, page, totalPages, loadedPages])
+    }, options)
+    const target = observerTarget.current
+    if (target) observer.observe(target)
+    return () => { if (target) observer.unobserve(target) }
+  }, [hasMore, loadNextPage])
 
   return (
-    <div 
-      className="relative min-h-[200px] overscroll-contain touch-pan-y" 
-      style={{ 
-        WebkitOverflowScrolling: 'touch',
-        scrollBehavior: 'smooth'
-      }}
-    >
+    <div className="relative min-h-[200px] overscroll-contain touch-pan-y">
       <div className="space-y-3">
         {notes.map((note, index) => (
-          <NoteCard 
-            key={note.id} 
-            note={note} 
-            isLast={index === notes.length - 1} 
-          />
+          <NoteCard key={note.id} note={note} isLast={index === notes.length - 1} />
         ))}
 
-        {loading && !loadedPages.has(page + 1) && (
+        {loading && (
           <div className="space-y-3 transition-opacity duration-300">
             {Array.from({ length: 2 }).map((_, index) => (
               <div 
                 key={index}
-                className="group relative pb-3"
+                className="group relative pb-3 animate-pulse"
               >
                 {index !== 1 && (
                   <div className="absolute left-5 top-0 w-px bottom-[-12px] bg-zinc-200 dark:bg-zinc-700 opacity-40" />
                 )}
                 <div className="relative flex items-start gap-3">
                   <div className="relative flex-shrink-0">
-                    <div className="w-10 h-10 rounded-full bg-zinc-100 dark:bg-zinc-800 animate-pulse" />
+                    <div className="w-10 h-10 rounded-full bg-zinc-100 dark:bg-zinc-800 shadow border border-zinc-200 dark:border-zinc-700" />
                   </div>
                   <div className="flex-1 pt-1 min-w-0">
-                    <div className="flex items-baseline gap-2">
-                      <div className="h-4 w-16 bg-zinc-100 dark:bg-zinc-800 rounded animate-pulse" />
-                      <div className="h-3 w-24 bg-zinc-100 dark:bg-zinc-800 rounded animate-pulse" />
+                    <div className="flex items-baseline gap-2 mb-1">
+                      <div className="h-4 w-20 bg-zinc-100 dark:bg-zinc-800 rounded" />
+                      <div className="h-3 w-16 bg-zinc-100 dark:bg-zinc-800 rounded" />
                     </div>
-                    <div className="mt-2 space-y-2">
-                      <div className="h-4 w-full bg-zinc-100 dark:bg-zinc-800 rounded animate-pulse" />
-                      <div className="h-4 w-4/5 bg-zinc-100 dark:bg-zinc-800 rounded animate-pulse" />
+                    <div className="space-y-2">
+                      <div className="h-4 w-4/5 bg-zinc-100 dark:bg-zinc-800 rounded" />
+                      <div className="h-4 w-3/5 bg-zinc-100 dark:bg-zinc-800 rounded" />
+                      <div className="h-3 w-2/5 bg-zinc-100 dark:bg-zinc-800 rounded" />
                     </div>
                   </div>
                 </div>
               </div>
             ))}
+          </div>
+        )}
+
+        {error && (
+          <div className="text-center text-red-500 dark:text-red-400 py-4">
+            {error}
+            <button
+              className="ml-4 px-3 py-1 rounded bg-zinc-200 dark:bg-zinc-700"
+              onClick={loadNextPage}
+            >
+              重试
+            </button>
           </div>
         )}
 
@@ -147,7 +125,18 @@ export function NotesPagination({
         )}
 
         {hasMore && (
-          <div ref={observerTarget} className="h-20" />
+          <>
+            <div ref={observerTarget} className="h-20" />
+            <div className="flex justify-center">
+              <button
+                className="mt-2 px-4 py-2 rounded bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 text-zinc-600 dark:text-zinc-300"
+                onClick={loadNextPage}
+                disabled={loading}
+              >
+                {loading ? "加载中..." : "加载更多"}
+              </button>
+            </div>
+          </>
         )}
       </div>
     </div>
