@@ -192,6 +192,7 @@ export function HomeContent({ initialData }: HomeContentProps) {
         {!loading && !error && postsData.totalPages > 1 && (
           <div className="mt-4">
             <PaginationButtons 
+              key={currentPage + '-' + postsData.totalPages}
               currentPage={currentPage} 
               totalPages={postsData.totalPages} 
               onPageChange={handlePageChange} 
