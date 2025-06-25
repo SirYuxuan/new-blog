@@ -9,6 +9,11 @@ import { useEffect, useState, useCallback } from "react"
 // 将主题切换按钮抽离为独立组件
 const ThemeToggleButton = () => {
   const { theme, setTheme } = useTheme()
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   const toggleTheme = useCallback(() => {
     setTheme(theme === "dark" ? "light" : "dark")
@@ -19,10 +24,11 @@ const ThemeToggleButton = () => {
       onClick={toggleTheme}
       className="flex items-center text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-300 transition-colors"
       aria-label="切换主题"
-      suppressHydrationWarning
     >
-      <span suppressHydrationWarning>
-        {theme === "dark" ? (
+      <span>
+        {!mounted ? (
+          <span className="h-4 w-4" />
+        ) : theme === "dark" ? (
           <Sun className="h-4 w-4" />
         ) : (
           <Moon className="h-4 w-4" />
