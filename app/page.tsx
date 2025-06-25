@@ -6,7 +6,7 @@ import { getCachedData } from '@/lib/cache'
 import Loading from '@/app/loading'
 
 export const metadata: Metadata = {
-  title: '首页',
+  title: "Jimmy's Blog",
   description: '书写，思考，生活',
   openGraph: {
     title: 'Jimmy Blog',
