@@ -93,11 +93,16 @@ function usePosts(initialPosts: PostsData, selectedTag: string | null) {
       window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
-    
+
+    // 如果点击的是当前页，什么都不做
+    if (page === currentPage) {
+      return;
+    }
+
     setLoading(true);
     setCurrentPage(page);
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, [selectedTag, initialPosts]);
+  }, [selectedTag, initialPosts, currentPage]);
 
   return {
     currentPage,
