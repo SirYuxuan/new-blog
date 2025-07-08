@@ -1,14 +1,6 @@
-import { preloadData } from '../app/lib/cache'
-
+// 现在无需预加载数据，保留空main函数保证构建通过
 async function main() {
-  console.log('Preloading data...')
-  try {
-    await preloadData()
-    console.log('Data preloaded successfully')
-  } catch (error) {
-    console.error('Error preloading data:', error)
-    process.exit(1)
-  }
+  return;
 }
 
-main() 
+main(); 
