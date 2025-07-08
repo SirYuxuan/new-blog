@@ -1,8 +1,7 @@
 import { Metadata } from 'next'
 import { Suspense } from 'react'
 import { HomeContent } from "@/components/home-content"
-import { getPaginatedPostsAction, getAllTagsAction } from "@/app/actions/posts"
-import { getCachedData } from '@/lib/cache'
+import { getAllPostsMeta, getTagsFromPosts } from "@/app/lib/cache"
 import Loading from '@/app/loading'
 
 export const metadata: Metadata = {
@@ -14,39 +13,24 @@ export const metadata: Metadata = {
   },
 }
 
+const PAGE_SIZE = 10
+
 export const dynamic = 'force-static'
 export const revalidate = 3600 // 1小时重新验证
 
-// 预加载数据
-export async function generateStaticParams() {
-  return [
-    { page: "1" },
-    { page: "2" },
-    { page: "3" }
-  ]
-}
-
-// 预加载初始数据
-async function getInitialData() {
-  try {
-    const [posts, tags] = await Promise.all([
-      getCachedData('posts', () => getPaginatedPostsAction(1, 10, null)),
-      getCachedData('tags', getAllTagsAction)
-    ])
-    return { posts, tags }
-  } catch (error) {
-    console.error('Error fetching initial data:', error)
-    return { posts: { posts: [], total: 0, totalPages: 0 }, tags: [] }
-  }
-}
-
-export default async function Home() {
-  const initialData = await getInitialData()
-  
+export default function Home() {
+  const posts = getAllPostsMeta()
+  const tags = getTagsFromPosts(posts).map(t => ({ tag: t.tag, count: Number(t.count) }))
+  const paginatedPosts = posts.slice(0, PAGE_SIZE)
+  const totalPages = Math.ceil(posts.length / PAGE_SIZE)
   return (
-    <Suspense fallback={<Loading />}>
-      <HomeContent initialData={initialData} />
-    </Suspense>
+    <HomeContent
+      posts={paginatedPosts}
+      allPosts={posts}
+      tags={tags}
+      currentPage={1}
+      totalPages={totalPages}
+    />
   )
 }
 

@@ -1,9 +1,8 @@
 "use client"
 
-import { useState, useEffect, useCallback, useMemo } from "react"
-import type { PostsByYear } from "@/types/post"
+import { useState, useCallback, useMemo } from "react"
+import type { PostsByYear, Post } from "@/types/post"
 import Link from "next/link"
-import { getPostsByYearAction} from "@/app/actions/posts"
 import { delay } from "@/app/lib/utils"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Footer } from "@/components/footer"
@@ -12,70 +11,45 @@ import { Header } from "@/components/header"
 import type { ArchiveContentProps } from "@/types/archive"
 import { format } from "date-fns"
 
-
-function useTags(initialTags: Array<{ tag: string; count: number }>) {
-  const [allTags, setAllTags] = useState(initialTags);
-  const [selectedTag, setSelectedTag] = useState<string | null>(null);
-  const [isTransitioning, setIsTransitioning] = useState(false);
-
-  const handleTagClick = useCallback(async (tag: string | null) => {
-    setIsTransitioning(true);
-    setSelectedTag(tag);
-    await delay(300);
-    setIsTransitioning(false);
-  }, []);
-
-  return {
-    allTags,
-    selectedTag,
-    isTransitioning,
-    handleTagClick
-  };
-}
-
-// 自定义 hook 用于处理文章列表逻辑
-function usePosts(initialPosts: PostsByYear, selectedTag: string | null) {
-  const [postsByYear, setPostsByYear] = useState(initialPosts);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    // 如果是全部标签，使用初始数据
-    if (selectedTag === null) {
-      setPostsByYear(initialPosts);
-      return;
-    }
-
-    const fetchData = async () => {
-      setLoading(true);
-      setError(null);
-      
-      try {
-        const posts = await getPostsByYearAction(selectedTag);
-        setPostsByYear(posts);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-        setError('加载文章失败，请稍后重试');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [selectedTag, initialPosts]);
-
-  return {
-    postsByYear,
-    loading,
-    error
-  };
+function groupPostsByYear(posts: Post[]): PostsByYear {
+  const grouped: PostsByYear = {}
+  posts.forEach(post => {
+    const year = new Date(post.date).getFullYear().toString()
+    if (!grouped[year]) grouped[year] = []
+    grouped[year].push(post)
+  })
+  // 按年份排序每组
+  Object.keys(grouped).forEach(year => {
+    grouped[year].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+  })
+  return grouped
 }
 
 export function ArchiveContent({ initialData }: ArchiveContentProps) {
-  const { allTags, selectedTag, isTransitioning, handleTagClick } = useTags(initialData.tags);
-  const { postsByYear, loading, error } = usePosts(initialData.postsByYear, selectedTag);
+  const [selectedTag, setSelectedTag] = useState<string | null>(null)
+  const [isTransitioning, setIsTransitioning] = useState(false)
 
-  // 使用 useMemo 优化标签渲染
+  // 标签筛选
+  const filteredPosts = useMemo(() => {
+    if (!selectedTag) {
+      // 全部标签
+      return Object.values(initialData.postsByYear).flat()
+    }
+    return Object.values(initialData.postsByYear).flat().filter(post => post.tags && post.tags.includes(selectedTag))
+  }, [initialData.postsByYear, selectedTag])
+
+  // 按年份分组
+  const postsByYear = useMemo(() => groupPostsByYear(filteredPosts), [filteredPosts])
+
+  // 标签点击动画
+  const handleTagClick = useCallback(async (tag: string | null) => {
+    setIsTransitioning(true)
+    setSelectedTag(tag)
+    await delay(300)
+    setIsTransitioning(false)
+  }, [])
+
+  // 标签渲染
   const tagElements = useMemo(() => (
     <div className="mb-8">
       <div className="flex flex-wrap gap-2">
@@ -85,7 +59,7 @@ export function ArchiveContent({ initialData }: ArchiveContentProps) {
           interactive={true}
           className={selectedTag === null ? 'bg-zinc-200 dark:bg-zinc-700 text-zinc-800 dark:text-zinc-200' : ''}
         />
-        {allTags.map(({ tag }) => (
+        {initialData.tags.map(({ tag }) => (
           <Tag
             key={tag}
             tag={tag}
@@ -96,30 +70,12 @@ export function ArchiveContent({ initialData }: ArchiveContentProps) {
         ))}
       </div>
     </div>
-  ), [allTags, selectedTag, handleTagClick]);
+  ), [initialData.tags, selectedTag, handleTagClick])
 
-  // 使用 useMemo 优化文章列表渲染
+  // 文章列表渲染
   const postElements = useMemo(() => (
     <div className={`space-y-6 transition-opacity duration-300 ${isTransitioning ? 'opacity-50' : 'opacity-100'}`}>
-      {loading && Object.keys(postsByYear).length === 0 ? (
-        <>
-          {Array.from({ length: 3 }).map((_, index) => (
-            <div key={index} className="space-y-4">
-              <Skeleton className="h-6 w-20" />
-              <div className="space-y-2">
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <div key={i} className="flex items-center justify-between">
-                    <Skeleton className="h-5 w-2/3" />
-                    <Skeleton className="h-4 w-20" />
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
-        </>
-      ) : error ? (
-        <p className="text-red-500 dark:text-red-400 text-sm">{error}</p>
-      ) : Object.entries(postsByYear).length > 0 ? (
+      {Object.entries(postsByYear).length > 0 ? (
         Object.entries(postsByYear)
           .sort((a, b) => Number(b[0]) - Number(a[0]))
           .map(([year, posts]) => (
@@ -149,20 +105,17 @@ export function ArchiveContent({ initialData }: ArchiveContentProps) {
         </p>
       )}
     </div>
-  ), [loading, error, postsByYear, isTransitioning]);
+  ), [postsByYear, isTransitioning])
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-6">
       <Header showBackButton={true} title="归档" />
-
       <main>
         {/* 标签云区域 */}
-        {allTags.length > 0 && tagElements}
-
+        {initialData.tags.length > 0 && tagElements}
         {/* 文章列表 */}
         {postElements}
       </main>
-
       <Footer />
     </div>
   )

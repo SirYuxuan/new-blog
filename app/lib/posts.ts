@@ -125,19 +125,6 @@ export function getPostsByYear() {
   return postsByYear
 }
 
-export function getPaginatedPosts(page: number = 1, pageSize: number = 5) {
-  const posts = getAllPosts();
-  const start = (page - 1) * pageSize;
-  const end = start + pageSize;
-  
-  return {
-    posts: posts.slice(start, end),
-    total: posts.length,
-    currentPage: page,
-    totalPages: Math.ceil(posts.length / pageSize)
-  };
-}
-
 export function getAllTags() {
   const posts = getAllPosts()
   const tagCounts: Record<string, number> = {}

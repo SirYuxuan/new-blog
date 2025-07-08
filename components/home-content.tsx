@@ -1,206 +1,105 @@
 "use client"
 
-import { useState, useEffect, useCallback, useMemo } from "react"
-import type { PostsData } from "@/types/post"
+import { useState, useMemo } from "react"
+import { useRouter } from "next/navigation"
 import Link from "next/link"
-import { getPaginatedPostsAction, getAllTagsAction } from "@/app/actions/posts"
-import { formatDate } from "@/app/lib/utils"
-import { Skeleton } from "@/components/ui/skeleton"
-import { Footer } from "@/components/footer"
-import { PaginationButtons } from "@/components/pagination-buttons"
 import { Tag } from "@/components/tag"
+import { PaginationButtons } from "@/components/pagination-buttons"
 import { Header } from "@/components/header"
-import type { HomeContentProps } from "@/types/home"
+import { Footer } from "@/components/footer"
+import { formatDate } from "@/app/lib/utils"
 import { articleStyles } from "@/styles/article"
 
-// 自定义 hook 用于处理标签逻辑
-function useTags(initialTags: Array<{ tag: string; count: number }>) {
-  const [allTags] = useState(initialTags);
-  const [selectedTag, setSelectedTag] = useState<string | null>(null);
-
-  const handleTagClick = useCallback((tag: string | null) => {
-    setSelectedTag(tag);
-  }, []);
-
-  return {
-    allTags,
-    selectedTag,
-    handleTagClick
-  };
+interface HomeContentProps {
+  posts: any[];
+  allPosts: any[];
+  tags: { tag: string; count: number }[];
+  currentPage: number;
+  totalPages: number;
 }
 
-// 自定义 hook 用于处理文章列表逻辑
-function usePosts(initialPosts: PostsData, selectedTag: string | null) {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [postsData, setPostsData] = useState(initialPosts);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+export function HomeContent({ posts, allPosts, tags, currentPage, totalPages }: HomeContentProps) {
+  const router = useRouter()
+  const [selectedTag, setSelectedTag] = useState<string | null>(null)
 
-  // 当标签改变时，重置页码
-  useEffect(() => {
-    setCurrentPage(1);
-    // 如果是全部标签，使用初始数据
-    if (selectedTag === null) {
-      setPostsData(initialPosts);
+  const filteredPosts = useMemo(() => {
+    if (!selectedTag) return posts;
+    return allPosts.filter((post) => post.tags.includes(selectedTag));
+  }, [posts, allPosts, selectedTag]);
+
+  // 标签筛选时只显示第一页
+  const showCurrentPage = selectedTag ? 1 : currentPage;
+  const showTotalPages = selectedTag ? 1 : totalPages;
+
+  // 标签筛选后分页（仅标签筛选时前端分页）
+  const PAGE_SIZE = 10;
+  const paginatedPosts = useMemo(() => {
+    if (!selectedTag) return filteredPosts;
+    const start = (showCurrentPage - 1) * PAGE_SIZE;
+    return filteredPosts.slice(start, start + PAGE_SIZE);
+  }, [filteredPosts, selectedTag, showCurrentPage]);
+
+  // 分页跳转
+  const handlePageChange = (page: number) => {
+    if (page === 1) {
+      router.push("/")
+    } else {
+      router.push(`/page/${page}`)
     }
-  }, [selectedTag, initialPosts]);
-
-  useEffect(() => {
-    let isMounted = true;
-
-    const fetchData = async () => {
-      // 如果是第一页且是全部标签，使用初始数据
-      if (currentPage === 1 && selectedTag === null) {
-        setPostsData(initialPosts);
-        setLoading(false);
-        return;
-      }
-
-      if (!isMounted) return;
-      
-      setLoading(true);
-      setError(null);
-      
-      try {
-        const posts = await getPaginatedPostsAction(currentPage, 10, selectedTag);
-        if (isMounted) {
-          setPostsData(posts as PostsData);
-        }
-      } catch (error) {
-        if (isMounted) {
-          console.error('Error fetching data:', error);
-          setError('加载文章失败，请稍后重试');
-        }
-      } finally {
-        if (isMounted) {
-          setLoading(false);
-        }
-      }
-    };
-
-    fetchData();
-
-    return () => {
-      isMounted = false;
-    };
-  }, [currentPage, selectedTag, initialPosts]);
-
-  const handlePageChange = useCallback((page: number) => {
-    // 如果切换到第一页且是全部标签，直接使用初始数据
-    if (page === 1 && selectedTag === null) {
-      setPostsData(initialPosts);
-      setCurrentPage(1);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      return;
-    }
-
-    // 如果点击的是当前页，什么都不做
-    if (page === currentPage) {
-      return;
-    }
-
-    setLoading(true);
-    setCurrentPage(page);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, [selectedTag, initialPosts, currentPage]);
-
-  return {
-    currentPage,
-    postsData,
-    loading,
-    error,
-    handlePageChange
-  };
-}
-
-export function HomeContent({ initialData }: HomeContentProps) {
-  const { allTags, selectedTag, handleTagClick } = useTags(initialData.tags);
-  const { currentPage, postsData, loading, error, handlePageChange } = usePosts(initialData.posts, selectedTag);
-
-  // 使用 useMemo 优化标签渲染
-  const tagElements = useMemo(() => (
-    <div className="flex flex-wrap gap-2">
-      <Tag
-        tag="全部"
-        onClick={() => handleTagClick(null)}
-        interactive={true}
-        className={selectedTag === null ? 'bg-zinc-200 dark:bg-zinc-700 text-zinc-800 dark:text-zinc-200' : ''}
-      />
-      {allTags.map(({ tag }) => (
-        <Tag
-          key={tag}
-          tag={tag}
-          onClick={() => handleTagClick(tag)}
-          interactive={true}
-          className={selectedTag === tag ? 'bg-zinc-200 dark:bg-zinc-700 text-zinc-800 dark:text-zinc-200' : ''}
-        />
-      ))}
-    </div>
-  ), [allTags, selectedTag, handleTagClick]);
-
-  // 使用 useMemo 优化文章列表渲染
-  const postElements = useMemo(() => (
-    <div className="space-y-4">
-      {loading ? (
-        <>
-          {Array.from({ length: 10 }).map((_, index) => (
-            <article key={index} className={articleStyles.baseClass}>
-              <div className="space-y-2">
-                <Skeleton className="h-5 w-2/3" />
-                <Skeleton className="h-3 w-1/4" />
-              </div>
-            </article>
-          ))}
-        </>
-      ) : error ? (
-        <p className="text-red-500 dark:text-red-400 text-sm">{error}</p>
-      ) : postsData.posts.length > 0 ? (
-        postsData.posts.map((post) => (
-          <article
-            key={post.id}
-            className={articleStyles.baseClass}
-          >
-            <Link href={`/posts/${post.id}`} className="group block">
-              <h2 className="text-base font-normal text-zinc-800 dark:text-zinc-200 group-hover:text-zinc-600 dark:group-hover:text-zinc-300 transition-colors duration-300">
-                {post.title}
-              </h2>
-              <time className="text-xs text-zinc-400 dark:text-zinc-500 mt-1 block">
-                {formatDate(post.date)}
-              </time>
-            </Link>
-          </article>
-        ))
-      ) : (
-        <p className="text-zinc-500 dark:text-zinc-400 text-sm">
-          暂无文章。
-        </p>
-      )}
-    </div>
-  ), [loading, error, postsData.posts]);
+  }
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-6">
       <Header isHome={true} />
-
       <main className="min-h-[200px]">
         {/* 标签云区域 */}
-        <div className="mb-8">
-          {allTags.length > 0 && tagElements}
+        <div className="mb-8 flex flex-wrap gap-2">
+          <Tag
+            tag="全部"
+            onClick={() => {
+              setSelectedTag(null)
+            }}
+            interactive={true}
+            className={selectedTag === null ? "bg-zinc-200 dark:bg-zinc-700 text-zinc-800 dark:text-zinc-200" : ""}
+          />
+          {tags.map(({ tag }) => (
+            <Tag
+              key={tag}
+              tag={tag}
+              onClick={() => {
+                setSelectedTag(tag)
+              }}
+              interactive={true}
+              className={selectedTag === tag ? "bg-zinc-200 dark:bg-zinc-700 text-zinc-800 dark:text-zinc-200" : ""}
+            />
+          ))}
         </div>
-
         {/* 文章列表 */}
-        <div className="min-h-[100px]">
-          {postElements}
+        <div className="space-y-4 min-h-[100px]">
+          {paginatedPosts.length > 0 ? (
+            paginatedPosts.map((post) => (
+              <article key={post.id} className={articleStyles.baseClass}>
+                <Link href={`/posts/${post.id}`} className="group block">
+                  <h2 className="text-base font-normal text-zinc-800 dark:text-zinc-200 group-hover:text-zinc-600 dark:group-hover:text-zinc-300 transition-colors duration-300">
+                    {post.title}
+                  </h2>
+                  <time className="text-xs text-zinc-400 dark:text-zinc-500 mt-1 block">
+                    {formatDate(post.date)}
+                  </time>
+                </Link>
+              </article>
+            ))
+          ) : (
+            <p className="text-zinc-500 dark:text-zinc-400 text-sm">暂无文章。</p>
+          )}
         </div>
-
         {/* 分页控制 */}
-        {!loading && !error && postsData.totalPages > 1 && (
+        {showTotalPages > 1 && (
           <div className="mt-4">
-            <PaginationButtons 
-              key={currentPage + '-' + postsData.totalPages}
-              currentPage={currentPage} 
-              totalPages={postsData.totalPages} 
-              onPageChange={handlePageChange} 
+            <PaginationButtons
+              currentPage={showCurrentPage}
+              totalPages={showTotalPages}
+              onPageChange={handlePageChange}
               className="animate-in fade-in duration-300"
             />
           </div>
