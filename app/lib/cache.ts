@@ -34,4 +34,23 @@ export function getTagsFromPosts(posts) {
   return Object.entries(tagCounts)
     .map(([tag, count]) => ({ tag, count: Number(count) }))
     .sort((a, b) => b.count - a.count)
+}
+
+export function getAllNotesMeta() {
+  const notesDirectory = path.join(process.cwd(), "content/notes");
+  if (!fs.existsSync(notesDirectory)) return [];
+  const fileNames = fs.readdirSync(notesDirectory);
+  return fileNames
+    .filter((fileName) => fileName.endsWith(".md"))
+    .map((fileName) => {
+      const id = fileName.replace(/\.md$/, "");
+      const fullPath = path.join(notesDirectory, fileName);
+      const fileContents = fs.readFileSync(fullPath, "utf8");
+      const matterResult = matter(fileContents);
+      return {
+        id,
+        content: matterResult.content,
+        date: matterResult.data.date || new Date().toISOString(),
+      };
+    });
 } 
