@@ -31,7 +31,7 @@ export function BackToTop() {
   return (
     <button
       onClick={scrollToTop}
-      className="fixed bottom-6 right-6 w-10 h-10 
+      className="fixed bottom-7 right-7 w-10 h-10 
         flex items-center justify-center rounded-full 
         bg-zinc-100/80 dark:bg-zinc-700/80 
         backdrop-blur-md backdrop-saturate-150
@@ -45,7 +45,7 @@ export function BackToTop() {
         hover:scale-110 active:scale-95"
       aria-label="返回顶部"
     >
-      <ArrowUp className="w-5 h-5" />
+      <ArrowUp className="w-6 h-6" />
     </button>
   )
 } 
