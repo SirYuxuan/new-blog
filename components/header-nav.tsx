@@ -44,14 +44,20 @@ export function HeaderNav() {
   const isActive = (path: string) => pathname === path
   const linkClasses = (path: string) => {
     const active = isActive(path)
-    return `flex items-center min-w-[64px] px-2 py-1 transition-colors duration-200
-      ${active ? 'text-zinc-800 dark:text-zinc-300' : 'text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-300'}`
+    return `flex items-center ${
+      active 
+        ? 'text-zinc-800 dark:text-zinc-300' 
+        : 'text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-300'
+    }`
   }
 
   const iconClasses = (path: string) => {
     const active = isActive(path)
-    return `h-4 w-4 mr-2 flex-shrink-0
-      ${active ? 'text-zinc-800 dark:text-zinc-300' : 'text-zinc-400 group-hover:text-zinc-800 dark:group-hover:text-zinc-300'}`
+    return `h-4 w-4 mr-2 ${
+      active 
+        ? 'text-zinc-800 dark:text-zinc-300' 
+        : 'text-zinc-400 group-hover:text-zinc-800 dark:group-hover:text-zinc-300'
+    }`
   }
 
   return (
@@ -61,21 +67,21 @@ export function HeaderNav() {
         className={linkClasses('/notes')}
       >
         <Pencil className={iconClasses('/notes')} />
-        <span className="hidden md:inline w-8 text-left">随笔</span>
+        <span className="hidden md:inline">随笔</span>
       </Link>
       <Link 
         href="/archive" 
         className={linkClasses('/archive')}
       >
         <Archive className={iconClasses('/archive')} />
-        <span className="hidden md:inline w-8 text-left">归档</span>
+        <span className="hidden md:inline">归档</span>
       </Link>
       <Link 
         href="/about" 
         className={linkClasses('/about')}
       >
         <User className={iconClasses('/about')} />
-        <span className="hidden md:inline w-8 text-left">关于</span>
+        <span className="hidden md:inline">关于</span>
       </Link>
       <ThemeToggleButton />
     </nav>
