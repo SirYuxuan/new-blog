@@ -95,7 +95,7 @@ export function HomeContent({ posts, allPosts, tags, currentPage, totalPages }: 
         </div>
         {/* 分页控制 */}
         {showTotalPages > 1 && (
-          <div className="mt-4">
+          <div className="mt-8">
             <PaginationButtons
               currentPage={showCurrentPage}
               totalPages={showTotalPages}
