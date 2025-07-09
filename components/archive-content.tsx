@@ -47,7 +47,7 @@ export function ArchiveContent({ initialData }: ArchiveContentProps) {
 
   // 标签渲染
   const tagElements = useMemo(() => (
-    <div className="mb-8">
+    <div className="mb-5">
       <div className="flex flex-wrap gap-2">
         <Tag
           tag="全部"

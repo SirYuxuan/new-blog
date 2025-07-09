@@ -53,7 +53,7 @@ export function HomeContent({ posts, allPosts, tags, currentPage, totalPages }: 
       <Header isHome={true} />
       <main className="min-h-[200px]">
         {/* 标签云区域 */}
-        <div className="mb-8 flex flex-wrap gap-2">
+        <div className="mb-5 flex flex-wrap gap-2">
           <Tag
             tag="全部"
             onClick={() => {
