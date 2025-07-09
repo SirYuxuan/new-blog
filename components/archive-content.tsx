@@ -27,7 +27,6 @@ function groupPostsByYear(posts: Post[]): PostsByYear {
 
 export function ArchiveContent({ initialData }: ArchiveContentProps) {
   const [selectedTag, setSelectedTag] = useState<string | null>(null)
-  const [isTransitioning, setIsTransitioning] = useState(false)
 
   // 标签筛选
   const filteredPosts = useMemo(() => {
@@ -41,12 +40,9 @@ export function ArchiveContent({ initialData }: ArchiveContentProps) {
   // 按年份分组
   const postsByYear = useMemo(() => groupPostsByYear(filteredPosts), [filteredPosts])
 
-  // 标签点击动画
-  const handleTagClick = useCallback(async (tag: string | null) => {
-    setIsTransitioning(true)
+  // 标签点击
+  const handleTagClick = useCallback((tag: string | null) => {
     setSelectedTag(tag)
-    await delay(300)
-    setIsTransitioning(false)
   }, [])
 
   // 标签渲染
@@ -74,7 +70,7 @@ export function ArchiveContent({ initialData }: ArchiveContentProps) {
 
   // 文章列表渲染
   const postElements = useMemo(() => (
-    <div className={`space-y-6 transition-opacity duration-300 ${isTransitioning ? 'opacity-50' : 'opacity-100'}`}>
+    <div className="space-y-6">
       {Object.entries(postsByYear).length > 0 ? (
         Object.entries(postsByYear)
           .sort((a, b) => Number(b[0]) - Number(a[0]))
@@ -105,7 +101,7 @@ export function ArchiveContent({ initialData }: ArchiveContentProps) {
         </p>
       )}
     </div>
-  ), [postsByYear, isTransitioning])
+  ), [postsByYear])
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-6">

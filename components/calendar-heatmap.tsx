@@ -106,7 +106,7 @@ export function CalendarHeatmap({ posts, notes = [] }: CalendarHeatmapProps) {
       <div className="flex items-center mb-2 gap-2">
         <button
           onClick={prevMonth}
-          className="w-7 h-7 flex items-center justify-center rounded-full bg-zinc-100/80 dark:bg-zinc-700/80 border border-zinc-200/50 dark:border-zinc-600/50 hover:border-zinc-300/50 dark:hover:border-zinc-500/50 shadow-[0_1px_3px_0_rgb(0,0,0,0.05)] dark:shadow-[0_1px_3px_0_rgb(0,0,0,0.2)] hover:shadow-[0_5px_15px_0_rgb(0,0,0,0.05)] dark:hover:shadow-[0_5px_15px_0_rgb(0,0,0,0.2)] text-zinc-600 dark:text-zinc-300 hover:text-zinc-800 dark:hover:text-zinc-100 transition-all duration-300 ease-out text-xs"
+          className="w-7 h-7 flex items-center justify-center rounded-full bg-zinc-100/80 dark:bg-zinc-700/80 border border-zinc-200/50 dark:border-zinc-600/50 hover:border-zinc-300/50 dark:hover:border-zinc-500/50 shadow-[0_1px_3px_0_rgb(0,0,0,0.05)] dark:shadow-[0_1px_3px_0_rgb(0,0,0,0.2)] hover:shadow-[0_5px_15px_0_rgb(0,0,0,0.05)] dark:hover:shadow-[0_5px_15px_0_rgb(0,0,0,0.2)] text-zinc-600 dark:text-zinc-300 hover:text-zinc-800 dark:hover:text-zinc-100 transition-all duration-200 ease-out hover:scale-110 active:scale-95"
           aria-label="上个月"
         >
           <ChevronLeft className="w-4 h-4" />
@@ -117,7 +117,7 @@ export function CalendarHeatmap({ posts, notes = [] }: CalendarHeatmapProps) {
         <button
           onClick={nextMonth}
           disabled={isCurrentMonth}
-          className={`w-7 h-7 flex items-center justify-center rounded-full bg-zinc-100/80 dark:bg-zinc-700/80 border border-zinc-200/50 dark:border-zinc-600/50 hover:border-zinc-300/50 dark:hover:border-zinc-500/50 shadow-[0_1px_3px_0_rgb(0,0,0,0.05)] dark:shadow-[0_1px_3px_0_rgb(0,0,0,0.2)] hover:shadow-[0_5px_15px_0_rgb(0,0,0,0.05)] dark:hover:shadow-[0_5px_15px_0_rgb(0,0,0,0.2)] text-zinc-600 dark:text-zinc-300 hover:text-zinc-800 dark:hover:text-zinc-100 transition-all duration-300 ease-out text-xs ${isCurrentMonth ? 'opacity-50 cursor-not-allowed' : ''}`}
+          className={`w-7 h-7 flex items-center justify-center rounded-full bg-zinc-100/80 dark:bg-zinc-700/80 border border-zinc-200/50 dark:border-zinc-600/50 hover:border-zinc-300/50 dark:hover:border-zinc-500/50 shadow-[0_1px_3px_0_rgb(0,0,0,0.05)] dark:shadow-[0_1px_3px_0_rgb(0,0,0,0.2)] hover:shadow-[0_5px_15px_0_rgb(0,0,0,0.05)] dark:hover:shadow-[0_5px_15px_0_rgb(0,0,0,0.2)] text-zinc-600 dark:text-zinc-300 hover:text-zinc-800 dark:hover:text-zinc-100 transition-all duration-200 ease-out ${!isCurrentMonth ? 'hover:scale-110 active:scale-95' : 'opacity-50 cursor-not-allowed'}`}
           aria-label="下个月"
         >
           <ChevronRight className="w-4 h-4" />
