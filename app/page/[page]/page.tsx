@@ -25,8 +25,8 @@ export default function Page({ params }: { params: { page: string } }) {
   const paginatedPosts = posts.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE)
   return (
     <>
-      {/* 悬浮日历热力图，不影响主内容布局 */}
-      <div className="fixed left-10 top-20 z-40 hidden md:block select-none">
+      {/* 悬浮日历热力图 */}
+      <div className="fixed left-20 top-20 z-40 hidden md:block select-none">
         <div className="rounded-xl bg-white/60 dark:bg-zinc-900/60 shadow-lg border border-zinc-200 dark:border-zinc-700 p-4 backdrop-blur-md backdrop-saturate-150">
           <CalendarHeatmap posts={posts} notes={notes} />
         </div>
