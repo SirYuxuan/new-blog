@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation"
 import { HomeContent } from "@/components/home-content"
 import { getAllPostsMeta, getTagsFromPosts, getAllNotesMeta } from "@/app/lib/cache"
-import { CalendarHeatmap } from "@/components/calendar-heatmap"
+import { CalendarHeatmapFloating } from "@/components/calendar-heatmap-floating"
 
 const PAGE_SIZE = 10
 
@@ -26,11 +26,7 @@ export default function Page({ params }: { params: { page: string } }) {
   return (
     <>
       {/* 悬浮日历热力图 */}
-      <div className="fixed left-20 top-20 z-40 hidden md:block select-none">
-        <div className="rounded-xl bg-white/60 dark:bg-zinc-900/60 shadow-lg border border-zinc-200 dark:border-zinc-700 p-4 backdrop-blur-md backdrop-saturate-150">
-          <CalendarHeatmap posts={posts} notes={notes} />
-        </div>
-      </div>
+      <CalendarHeatmapFloating posts={posts} notes={notes} />
       <HomeContent
         posts={paginatedPosts}
         allPosts={posts}
