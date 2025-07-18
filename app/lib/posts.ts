@@ -40,7 +40,7 @@ export function getAllPosts() {
         return {
           id,
           title: matterResult.data.title || "无标题",
-          date: matterResult.data.date || new Date().toISOString(),
+          date: matterResult.data.date ? new Date(matterResult.data.date).toISOString() : new Date().toISOString(),
           excerpt: matterResult.data.excerpt || "",
           tags: matterResult.data.tags || [],
           content: matterResult.content,
@@ -98,7 +98,7 @@ export async function getPostById(id: string) {
     return {
       id,
       title: matterResult.data.title || "无标题",
-      date: matterResult.data.date || new Date().toISOString(),
+      date: matterResult.data.date ? new Date(matterResult.data.date).toISOString() : new Date().toISOString(),
       contentHtml,
       tags: matterResult.data.tags || [],
       ...matterResult.data,

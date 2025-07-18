@@ -13,7 +13,7 @@ export function CalendarHeatmapFloating({ posts, notes }: Props) {
   return (
     <div className="fixed left-10 z-40 hidden md:block select-none" style={{ top: '115px' }}>
       <button
-        className={`absolute left-2 -top-7 z-50 w-7 h-7 flex items-center justify-center rounded-full bg-zinc-100/60 dark:bg-zinc-700/60 backdrop-blur-lg backdrop-saturate-200 border border-zinc-200/50 dark:border-zinc-600/50 text-zinc-600 dark:text-zinc-300 hover:text-zinc-800 dark:hover:text-zinc-100 transition-all duration-200 ease-out hover:scale-110 active:scale-95 shadow`}
+        className={`absolute left-2 -top-7 z-50 w-7 h-7 flex items-center justify-center rounded-full bg-white/60 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-700 text-zinc-600 dark:text-zinc-300 hover:text-zinc-800 dark:hover:text-zinc-100 transition-all duration-200 ease-out hover:scale-110 active:scale-95 shadow`}
         onClick={() => setShowCalendar(v => !v)}
         aria-label={showCalendar ? "隐藏日历" : "显示日历"}
       >

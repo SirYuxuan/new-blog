@@ -42,7 +42,7 @@ async function initNotesCache() {
       return {
         id,
         content: matterResult.content,
-        date: matterResult.data.date || new Date().toISOString(),
+        date: matterResult.data.date ? new Date(matterResult.data.date).toISOString() : new Date().toISOString(),
       }
     })
     .sort((a, b) => (new Date(a.date) < new Date(b.date) ? 1 : -1))

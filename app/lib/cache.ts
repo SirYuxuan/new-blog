@@ -16,7 +16,7 @@ export function getAllPostsMeta() {
       return {
         id,
         title: matterResult.data.title || "无标题",
-        date: matterResult.data.date || new Date().toISOString(),
+        date: matterResult.data.date ? new Date(matterResult.data.date).toISOString() : new Date().toISOString(),
         tags: matterResult.data.tags || [],
       }
     })
@@ -48,9 +48,9 @@ export function getAllNotesMeta() {
       const fileContents = fs.readFileSync(fullPath, "utf8");
       const matterResult = matter(fileContents);
       return {
-        id,
+        id: fileName.replace(/\.md$/, ""),
         content: matterResult.content,
-        date: matterResult.data.date || new Date().toISOString(),
+        date: matterResult.data.date ? new Date(matterResult.data.date).toISOString() : new Date().toISOString(),
       };
     });
 } 

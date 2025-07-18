@@ -67,7 +67,7 @@ export function CalendarHeatmap({ posts, notes = [] }: CalendarHeatmapProps) {
 
   // 颜色分级（黑白点点）
   function getDotClass(count: number) {
-    if (!count) return "bg-zinc-200 dark:bg-zinc-800"
+    if (!count) return "bg-zinc-100 dark:bg-zinc-800"
     if (count === 1) return "bg-zinc-400 dark:bg-zinc-600"
     if (count === 2) return "bg-zinc-600 dark:bg-zinc-400"
     return "bg-black dark:bg-white"
