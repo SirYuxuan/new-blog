@@ -3,7 +3,7 @@ import { useState } from "react"
 import { CalendarHeatmap } from "@/components/calendar-heatmap"
 import { Calendar as CalendarIcon, EyeOff } from "lucide-react"
 
-interface Props {
+type Props = {
   posts: { date: string }[]
   notes?: { date: string }[]
 }

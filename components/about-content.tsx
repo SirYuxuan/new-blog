@@ -6,7 +6,7 @@ import { Footer } from "@/components/footer"
 import { OptimizedImage } from "@/components/ui/optimized-image"
 import { Header } from "@/components/header"
 
-interface Post {
+type Post = {
   id: string
   title: string
   date: string
@@ -16,7 +16,7 @@ interface Post {
   content: string
 }
 
-interface AboutContentProps {
+type AboutContentProps = {
   initialStats: {
     posts: number;
     notes: number;

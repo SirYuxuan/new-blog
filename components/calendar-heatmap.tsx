@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 
-interface CalendarHeatmapProps {
+type CalendarHeatmapProps = {
   posts: { date: string }[]
   notes?: { date: string }[]
 }

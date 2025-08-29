@@ -4,6 +4,7 @@ import { Tag } from './Tag';
 import { Skeleton } from './Skeleton';
 import { Header } from './Header';
 import { Footer } from './Footer';
+import { delay } from '@/app/lib/utils';
 
 function useTags(initialTags: Array<{ tag: string; count: number }>) {
   const [allTags, setAllTags] = useState(initialTags);
@@ -154,3 +155,7 @@ export function NotesContent({ initialData }: NotesContentProps) {
     </div>
   )
 } 
+
+function getNotesAction(selectedTag: string | null) {
+  throw new Error('Function not implemented.');
+}

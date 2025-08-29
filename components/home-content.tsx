@@ -10,7 +10,7 @@ import { Footer } from "@/components/footer"
 import { formatDate } from "@/app/lib/utils"
 import { articleStyles } from "@/styles/article"
 
-interface HomeContentProps {
+type HomeContentProps = {
   posts: any[];
   allPosts: any[];
   tags: { tag: string; count: number }[];

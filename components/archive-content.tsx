@@ -3,8 +3,6 @@
 import { useState, useCallback, useMemo } from "react"
 import type { PostsByYear, Post } from "@/types/post"
 import Link from "next/link"
-import { delay } from "@/app/lib/utils"
-import { Skeleton } from "@/components/ui/skeleton"
 import { Footer } from "@/components/footer"
 import { Tag } from "@/components/tag"
 import { Header } from "@/components/header"

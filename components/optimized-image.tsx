@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import { useState } from 'react'
 
-interface OptimizedImageProps {
+type OptimizedImageProps = {
   src: string
   alt: string
   width: number
