@@ -1,4 +1,4 @@
-export interface InfiniteScrollProps {
+export type InfiniteScrollProps = {
   loadMore: () => Promise<void>;
   hasMore: boolean;
   loading: boolean;

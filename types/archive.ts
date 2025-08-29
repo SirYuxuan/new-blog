@@ -1,6 +1,6 @@
 import { PostsByYear } from "./post"
 
-export interface ArchiveContentProps {
+export type ArchiveContentProps = {
   initialData: {
     postsByYear: PostsByYear;
     tags: Array<{ tag: string; count: number }>;

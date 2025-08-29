@@ -1,3 +1,3 @@
-export interface MarkdownContentProps {
+export type MarkdownContentProps = {
   content: string;
 }

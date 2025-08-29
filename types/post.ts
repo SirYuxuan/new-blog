@@ -1,4 +1,4 @@
-export interface Post {
+export type Post = {
   id: string;
   title: string;
   date: string;
@@ -6,12 +6,12 @@ export interface Post {
   tags?: string[];
 }
 
-export interface PostsData {
+export type PostsData ={
   posts: Post[];
   total: number;
   totalPages: number;
 }
 
-export interface PostsByYear {
+export type PostsByYear = {
   [year: string]: Post[];
 }

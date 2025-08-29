@@ -1,6 +1,6 @@
 import { PostsData } from "./post"
 
-export interface HomeContentProps {
+export type HomeContentProps = {
   initialData: {
     posts: PostsData;
     tags: Array<{ tag: string; count: number }>;

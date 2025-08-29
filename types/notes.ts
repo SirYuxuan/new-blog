@@ -1,4 +1,4 @@
-export interface NotesPaginationProps {
+export type NotesPaginationProps = {
   initialNotes: Array<{
     id: string;
     content: string;

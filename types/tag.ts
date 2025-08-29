@@ -1,11 +1,11 @@
-export interface TagProps {
+export type TagProps = {
   tag: string;
   onClick?: () => void;
   className?: string;
   interactive?: boolean;
 }
 
-export interface TagsProps {
+export type TagsProps = {
   tags: string[];
   className?: string;
   onTagClick?: (tag: string) => void;
