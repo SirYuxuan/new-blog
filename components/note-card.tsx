@@ -13,8 +13,8 @@ export function NoteCard({ note, isLast }: { note: Note; isLast?: boolean }) {
       <div className="relative flex items-stretch gap-3">
         <div className="relative">
           <img
-            src="/cat.jpg"
-            alt="Jimmy's avatar"
+            src="https://img.oofo.cc/v2/ZjtUHmA.jpeg"
+            alt="Sir丶雨轩的头像"
             className="w-10 h-10 rounded-full object-cover border-[1px] border-zinc-100 dark:border-zinc-800 shadow-sm"
           />
         </div>
@@ -22,7 +22,7 @@ export function NoteCard({ note, isLast }: { note: Note; isLast?: boolean }) {
         {/* 内容区域 */}
         <div className="flex-1 -mt-1">
           <div className="flex items-baseline gap-2">
-            <div className="text-sm font-medium text-zinc-800 dark:text-zinc-200">Jimmy</div>
+            <div className="text-sm font-medium text-zinc-800 dark:text-zinc-200">Sir丶雨轩</div>
             <time className="text-xs text-zinc-400 dark:text-zinc-500 font-mono tabular-nums">
               {format(new Date(note.date), "yyyy/MM/dd")}
             </time>

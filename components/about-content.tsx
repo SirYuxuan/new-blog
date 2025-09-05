@@ -69,8 +69,8 @@ export function AboutContent({ initialStats }: AboutContentProps) {
     }
   }
 
-  const copyEmail = () => copyToClipboard("sxy1308075897@gmail.com", 'email')
-  const copyWechat = () => copyToClipboard("OOIll0", 'wechat')
+  const copyEmail = () => copyToClipboard("dev@oofo.cc", 'email')
+  const copyWechat = () => copyToClipboard("gfh229_", 'wechat')
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-6">
@@ -90,8 +90,8 @@ export function AboutContent({ initialStats }: AboutContentProps) {
               group shrink-0"
           >
             <OptimizedImage
-              src="/logo2.png"
-              alt="Jimmy's photo"
+              src="https://img.oofo.cc/v2/ZjtUHmA.jpeg"
+              alt="Sir丶雨轩"
               width={192}
               height={192}
               className="object-cover transition-all duration-300 ease-out dark:invert"
@@ -103,28 +103,11 @@ export function AboutContent({ initialStats }: AboutContentProps) {
           <div className="flex-1 space-y-6 text-center md:text-left">
             <div>
               <h1 className="text-3xl font-bold mb-2">关于</h1>
-              <p className="text-lg text-zinc-600 dark:text-zinc-400">O Captain! My Captain!</p>
+              <p className="text-lg text-zinc-600 dark:text-zinc-400">编程改变世界!</p>
             </div>
             <div className="flex flex-wrap justify-center md:justify-start gap-3">
               <a
-                href="https://about.jimmy-blog.top/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center px-4 py-2 rounded-lg
-                  bg-zinc-100/50 dark:bg-zinc-800/50
-                  hover:bg-zinc-200/50 dark:hover:bg-zinc-700/50
-                  border border-zinc-200/50 dark:border-zinc-700/50
-                  hover:border-zinc-300/50 dark:hover:border-zinc-600/50
-                  text-zinc-600 dark:text-zinc-400
-                  hover:text-zinc-800 dark:hover:text-zinc-200
-                  transition-colors
-                  group"
-              >
-                <User className="h-5 w-5 mr-2" />
-                <span>作品集</span>
-              </a>
-              <a
-                href="https://github.com/Lily-404"
+                href="https://github.com/SirYuxuan"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center px-4 py-2 rounded-lg 
@@ -138,22 +121,6 @@ export function AboutContent({ initialStats }: AboutContentProps) {
               >
                 <Github className="h-5 w-5 mr-2" />
                 <span>GitHub</span>
-              </a>
-              <a
-                href="https://okjk.co/ITgDUG"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center px-4 py-2 rounded-lg 
-                  bg-zinc-100/50 dark:bg-zinc-800/50
-                  hover:bg-zinc-200/50 dark:hover:bg-zinc-700/50
-                  border border-zinc-200/50 dark:border-zinc-700/50
-                  hover:border-zinc-300/50 dark:hover:border-zinc-600/50
-                  text-zinc-600 dark:text-zinc-400
-                  hover:text-zinc-800 dark:hover:text-zinc-200
-                  transition-colors"
-              >
-                <span className="h-5 w-5 mr-2 flex items-center justify-center">J</span>
-                <span>即刻</span>
               </a>
               <button
                 onClick={copyEmail}
@@ -257,7 +224,7 @@ export function AboutContent({ initialStats }: AboutContentProps) {
             transition-colors">
             <h2 className="text-xl font-semibold mb-4">本站</h2>
             <div className="space-y-3 text-zinc-600 dark:text-zinc-400">
-              <p>这个博客使用 Next.js构建，用来记录我在技术学习和工作中的心得体会。</p>
+              <p>这个博客使用 Next.js构建，Forked: <a href="https://github.com/Lily-404/blog" target="_blank" rel="noopener noreferrer" className="text-zinc-800 dark:text-zinc-200 hover:underline">Lily-404/blog</a></p>
               <p>同时也会分享一些关于生活、阅读的想法。</p>
             </div>
           </div>
@@ -268,10 +235,11 @@ export function AboutContent({ initialStats }: AboutContentProps) {
             hover:border-zinc-300/50 dark:hover:border-zinc-600/50
             transition-colors">
             <h2 className="text-xl font-semibold mb-4">项目</h2>
+          
             <div className="space-y-3 text-zinc-600 dark:text-zinc-400">
               <p>本博客是开源的，感兴趣的话麻烦点个Star，你可以在 GitHub 查看源码：</p>
               <a 
-                href="https://github.com/Lily-404/blog"
+                href="https://github.com/sirYuxuan/new-blog"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 
@@ -280,7 +248,7 @@ export function AboutContent({ initialStats }: AboutContentProps) {
                   transition-colors"
               >
                 <Github className="w-5 h-5" />
-                <span>Lily-404/blog</span>
+                <span>SirYuxuan/new-blog</span>
               </a>
             </div>
           </div>

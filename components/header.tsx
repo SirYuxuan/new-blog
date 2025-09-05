@@ -10,8 +10,8 @@ export function Header({ showBackButton = false, backButtonHref = "/", showNav =
       <header className="mb-6 flex justify-between items-center">
         <div className="flex items-center gap-3">
           <img
-            src="/cat.jpg"
-            alt="Jimmy's avatar"
+            src="https://img.oofo.cc/v2/ZjtUHmA.jpeg"
+            alt="Sir丶雨轩"
             width={40}
             height={40}
             className="w-10 h-10 rounded-full object-cover"
@@ -22,7 +22,7 @@ export function Header({ showBackButton = false, backButtonHref = "/", showNav =
               navigator.clipboard.writeText(window.location.href);
             }}
           >
-            Jimmy's Blog
+            雨轩博客
           </h1>
         </div>
         <div className="flex items-center gap-4">

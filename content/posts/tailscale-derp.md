@@ -1,34 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
-    <channel>
-        <title>Sir丶雨轩的博客</title>
-        <link>https://blog.oofo.cc</link>
-        <description>Sir丶雨轩的个人博客，分享技术、生活和思考。</description>
-        <lastBuildDate>Fri, 05 Sep 2025 03:21:45 GMT</lastBuildDate>
-        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
-        <generator>Feed for Node.js</generator>
-        <language>zh-CN</language>
-        <image>
-            <title>Sir丶雨轩的博客</title>
-            <url>https://blog.oofo.cc/favicon.ico</url>
-            <link>https://blog.oofo.cc</link>
-        </image>
-        <copyright>All rights reserved 2025</copyright>
-        <item>
-            <title><![CDATA[Derp节点安装配置教程]]></title>
-            <link>https://blog.oofo.cc/posts/tailscale-derp</link>
-            <guid>https://blog.oofo.cc/posts/tailscale-derp</guid>
-            <pubDate>Fri, 05 Sep 2025 00:00:00 GMT</pubDate>
-            <description><![CDATA[
-## 概述
-DERP (Designated Encrypted Relay for Packets) 是Tailscale的加密中继服务，用于在NAT穿透失败时提供备用的连接路径。
+---
+title: Derp节点安装配置教程
+date: "2025-09-05"
+tags: ['教程','安装配置']
+---
 
-## 系统要求
-- **操作系统**: Linux (推荐Ubuntu 20.04+ 或 CentOS 7+)
-- **内存**: 至少512MB RAM
-- **存储**: 至少1GB可用空间
-- **网络**...]]></description>
-            <content:encoded><![CDATA[
 ## 概述
 DERP (Designated Encrypted Relay for Packets) 是Tailscale的加密中继服务，用于在NAT穿透失败时提供备用的连接路径。
 
@@ -285,10 +260,3 @@ sudo firewall-cmd --list-all
 
 ## 总结
 通过以上步骤，您就可以成功搭建一个DERP服务器，为Tailscale网络提供可靠的中继服务。记得定期维护和监控服务状态，确保网络的稳定性。
-]]></content:encoded>
-            <author>dev@oofo.cc (Sir丶雨轩)</author>
-            <category>教程</category>
-            <category>安装配置</category>
-        </item>
-    </channel>
-</rss>

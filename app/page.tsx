@@ -6,10 +6,10 @@ import { CalendarHeatmapFloating } from "@/components/calendar-heatmap-floating"
 const PAGE_SIZE = 10
 
 export const metadata: Metadata = {
-  title: "Jimmy's Blog",
+  title: "雨轩博客",
   description: '书写，思考，生活',
   openGraph: {
-    title: 'Jimmy Blog',
+    title: '雨轩博客',
     description: '书写，思考，生活',
   },
 }

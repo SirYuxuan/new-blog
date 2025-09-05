@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   title: '归档',
   description: '按年份和标签归档的所有文章',
   openGraph: {
-    title: '归档 | Jimmy Blog',
+    title: '归档 | 雨轩博客',
     description: '按年份和标签归档的所有文章',
   },
 }

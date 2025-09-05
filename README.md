@@ -1,4 +1,4 @@
-# Jimmy's Blog
+# Yuxuan Blog
 
 一个基于 Next.js 15+ 构建的简约个人博客系统。
 
