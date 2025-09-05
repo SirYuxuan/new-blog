@@ -17,8 +17,8 @@ export const metadata: Metadata = {
   },
 }
 
-export default function ReadingPage() {
-  const books = getAllBooks()
+export default async function ReadingPage() {
+  const books = await getAllBooks()
   const stats = getReadingStats(books)
 
   return (
