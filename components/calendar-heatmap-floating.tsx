@@ -1,5 +1,5 @@
 "use client"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { CalendarHeatmap } from "@/components/calendar-heatmap"
 import { Calendar as CalendarIcon, EyeOff } from "lucide-react"
 
@@ -9,7 +9,17 @@ type Props = {
 }
 
 export function CalendarHeatmapFloating({ posts, notes }: Props) {
-  const [showCalendar, setShowCalendar] = useState(true)
+  const [showCalendar, setShowCalendar] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const stored = localStorage.getItem('showCalendar')
+      return stored ? JSON.parse(stored) : false
+    }
+    return false
+  })
+
+  useEffect(() => {
+    localStorage.setItem('showCalendar', JSON.stringify(showCalendar))
+  }, [showCalendar])
   return (
     <div className="fixed left-10 z-40 hidden md:block select-none" style={{ top: '115px' }}>
       <button

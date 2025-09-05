@@ -1,5 +1,5 @@
 ---
-title: Derp节点安装配置教程
+title: Tailscale-Derp节点安装配置教程
 date: "2025-09-05"
 tags: ['教程','安装配置']
 ---
