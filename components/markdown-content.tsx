@@ -44,7 +44,7 @@ export function MarkdownContent({ content }: MarkdownContentProps) {
       
       // 创建复制按钮容器
       const buttonContainer = document.createElement('div')
-      buttonContainer.className = 'absolute right-3 top-3 flex items-center gap-1 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-200'
+      buttonContainer.className = 'absolute right-3 top-3 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200'
       
       // 创建复制按钮
       const copyButton = document.createElement('button')
