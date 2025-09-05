@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { Archive, User, Pencil, Moon, Sun } from "lucide-react"
+import { Archive, User, Pencil, BookOpen, Moon, Sun } from "lucide-react"
 import { usePathname } from "next/navigation"
 import { useTheme } from "next-themes"
 import { useEffect, useState, useCallback } from "react"
@@ -68,6 +68,13 @@ export function HeaderNav() {
       >
         <Pencil className={iconClasses('/notes')} />
         <span className="hidden md:inline">随笔</span>
+      </Link>
+      <Link 
+        href="/reading" 
+        className={linkClasses('/reading')}
+      >
+        <BookOpen className={iconClasses('/reading')} />
+        <span className="hidden md:inline">读书</span>
       </Link>
       <Link 
         href="/archive" 
