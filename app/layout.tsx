@@ -1,7 +1,8 @@
-import { Inter } from 'next/font/google'
-import type { Metadata, Viewport } from 'next'
 import GoogleAnalytics from "@/components/GoogleAnalytics"
 import { ThemeProvider } from "@/components/theme-provider"
+import { Analytics } from "@vercel/analytics/next"
+import type { Metadata, Viewport } from 'next'
+import { Inter } from 'next/font/google'
 import "./globals.css"
 
 const inter = Inter({
@@ -97,10 +98,9 @@ export default function RootLayout({
           {process.env.NEXT_PUBLIC_GA_ID && (
             <GoogleAnalytics GA_MEASUREMENT_ID={process.env.NEXT_PUBLIC_GA_ID} />
           )}
+          <Analytics />
         </ThemeProvider>
       </body>
     </html>
   )
 }
-
-import './globals.css'
