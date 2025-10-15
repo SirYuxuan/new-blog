@@ -36,7 +36,6 @@ tags: ['Raycast', 'macOS', 'Troubleshooting']
 
 1.  打开 **“系统设置”** > **“聚焦”**。
 2.  在 **“隐私”** 标签页中，将你的整个硬盘（通常是 `Macintosh HD`）拖入列表，或点击 `+` 号添加它。这会暂时禁用该磁盘的索引。
-    ![聚焦隐私设置](https://support.apple.com/library/content/dam/edam/applecare/images/en_US/macos/Big-sur/macos-big-sur-settings-spotlight-privacy-add-disk.png)
 3.  等待几分钟，然后从隐私列表中移除该磁盘。系统会立即开始重建索引。
 
 **或者，使用终端命令（更直接）：**
